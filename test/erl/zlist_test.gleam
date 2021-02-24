@@ -1,6 +1,13 @@
 import erl/zlist
 import gleam/should
 
+pub fn recurrent_3_test() {
+  zlist.recurrent_3(1, 0, fn(a, b) { tuple(a + b, a) })
+  |> zlist.take(10, _)
+  |> zlist.expand
+  |> should.equal([1, 1, 2, 3, 5, 8, 13, 21, 34, 55])
+}
+
 pub fn append_zlist_of_zlists_1_test() {
   let zl1 = zlist.new([1, 2, 3], fn() { [] })
   let zl2 = zlist.new([4, 5, 6], fn() { [] })
