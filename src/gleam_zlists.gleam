@@ -1,105 +1,40 @@
-import erl/zlist.{ZList}
+import erl/interface as api
 
-pub fn new(ls: List(a), f: fn() -> List(t)) -> ZList(t) {
-  zlist.new(ls, f)
+type ZList(t) =
+  api.ZList(t)
+
+/// Converts a `list` to `ZList`.
+///
+pub fn of_list(list: List(t)) -> ZList(t) {
+  api.new(list, fn() { [] })
 }
 
-pub fn generate(zl: ZList(t), f: fn(t) -> ZList(t1)) -> ZList(t1) {
-  zlist.generate(zl, f)
+/// Converts a `zlist` to `List`.
+///
+/// # Examples
+///
+///   > zlist.range(0, 3, 1)
+///   > |> zlist.to_list
+///   [0, 1, 2, 3]
+///
+pub fn to_list(zlist: ZList(t)) -> List(t) {
+  api.expand(zlist)
 }
 
-pub fn recurrent_2(elem: t, f: fn(t) -> t) -> ZList(t) {
-  zlist.recurrent_2(elem, f)
-}
-
-pub fn recurrent_3(
-  elem: t,
-  elem_1: t1,
-  f: fn(t, t1) -> tuple(t, t1),
-) -> ZList(t) {
-  zlist.recurrent_3(elem, elem_1, f)
-}
-
-pub fn foreach(f: fn(t) -> any, zl: ZList(t)) -> Nil {
-  zlist.foreach(f, zl)
-}
-
-pub fn foldl(f: fn(t, acc) -> acc, accum: acc, zl: ZList(t)) -> acc {
-  zlist.foldl(f, accum, zl)
-}
-
-pub fn map(f: fn(a) -> b, zl: ZList(a)) -> ZList(b) {
-  zlist.map(f, zl)
-}
-
-pub fn seq(from: Int, to: Int, incr: Int) -> ZList(Int) {
-  zlist.seq(from, to, incr)
-}
-
-pub fn dropwhile(pred: fn(t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.dropwhile(pred, zl)
-}
-
-pub fn drop(n: Int, zl: ZList(t)) -> ZList(t) {
-  zlist.drop(n, zl)
-}
-
-pub fn takewhile(pred: fn(t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.takewhile(pred, zl)
-}
-
-pub fn take(n: Int, zl: ZList(t)) -> ZList(t) {
-  zlist.take(n, zl)
-}
-
-pub fn filter(pred: fn(t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.filter(pred, zl)
-}
-
-pub fn expand(zl: ZList(t)) -> List(t) {
-  zlist.expand(zl)
-}
-
-pub fn append(zlsts: ZList(ZList(t))) -> ZList(t) {
-  zlist.append(zlsts)
-}
-
-pub fn scroll(n: Int, zl: ZList(t)) -> tuple(List(t), ZList(t)) {
-  zlist.scroll(n, zl)
-}
-
-pub fn merge(zl_1: ZList(t), zl_2: ZList(t)) -> ZList(t) {
-  zlist.merge(zl_1, zl_2)
-}
-
-pub fn splitwith(pred: fn(t) -> Bool, zl: ZList(t)) -> tuple(List(t), ZList(t)) {
-  zlist.splitwith(pred, zl)
-}
-
-pub fn cartesian(zl_1: ZList(t), zl_2: ZList(t)) -> ZList(t) {
-  zlist.cartesian(zl_1, zl_2)
-}
-
-pub fn zip(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(tuple(a, b)) {
-  zlist.zip(zl_1, zl_2)
-}
-
-pub fn ziph(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(tuple(a, b)) {
-  zlist.ziph(zl_1, zl_2)
-}
-
-pub fn unique_1(zl: ZList(t)) -> ZList(t) {
-  zlist.unique_1(zl)
-}
-
-pub fn unique_2(pred: fn(t, t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.unique_2(pred, zl)
-}
-
-pub fn count(zl: ZList(t)) -> Int {
-  zlist.count(zl)
-}
-
-pub fn print(zl: ZList(t)) -> Nil {
-  zlist.print(zl)
+/// Returns a lazy range from `first` to `last` (included).
+/// The difference between one term and the next equals to `step`.
+/// The `step` should be positive.
+///
+/// # Examples
+///
+///   > zlist.range(0, 3, 1)
+///   > |> zlist.to_list
+///   [0, 1, 2, 3]
+///
+///   > zlist.range(-3, 5, 2)
+///   > |> zlist.to_list
+///   [-3, -1, 1, 3, 5]
+///
+pub fn range(first: Int, last: Int, step: Int) -> ZList(Int) {
+  api.seq(first, last, step)
 }
