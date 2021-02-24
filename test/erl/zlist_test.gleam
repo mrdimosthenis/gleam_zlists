@@ -1,4 +1,4 @@
-import gleam_zlists as zlist
+import erl/zlist
 import gleam/should
 
 pub fn append_zlist_of_zlists_1_test() {
