@@ -1,25 +1,14 @@
 # gleam_zlists
 
-A Gleam project
-
-## Quick start
-
-```sh
-# Run the eunit tests
-rebar3 eunit
-
-# Run the Erlang REPL
-rebar3 shell
-```
+This is a library for working with **lazy lists** in **Gleam**.
 
 ## Installation
 
-If [available in Hex](https://rebar3.org/docs/configuration/dependencies/#declaring-dependencies)
-this package can be installed by adding `gleam_zlists` to your `rebar.config` dependencies:
+Add `gleam_zlists` to your `rebar.config` dependencies:
 
 ```erlang
 {deps, [
-    gleam_zlists
+    {gleam_zlists, {git, "https://github.com/mrdimosthenis/gleam_zlists", {tag, "0.1"}}
 ]}.
 ```
 
