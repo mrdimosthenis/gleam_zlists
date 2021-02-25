@@ -1,76 +1,76 @@
 pub external type ZList(a)
 
 pub external fn new(List(a), fn() -> List(t)) -> ZList(t) =
-  "zlists" "new"
+  "erlang_zlists" "new"
 
 pub external fn generate(ZList(t), fn(t) -> ZList(t1)) -> ZList(t1) =
-  "zlists" "generate"
+  "erlang_zlists" "generate"
 
 pub external fn recurrent_2(t, fn(t) -> t) -> ZList(t) =
-  "zlists" "recurrent"
+  "erlang_zlists" "recurrent"
 
 pub external fn recurrent_3(t, t1, fn(t, t1) -> tuple(t, t1)) -> ZList(t) =
-  "zlists" "recurrent"
+  "erlang_zlists" "recurrent"
 
 pub external fn foreach(fn(t) -> any, ZList(t)) -> Nil =
-  "zlists" "foreach"
+  "erlang_zlists" "foreach"
 
 pub external fn foldl(fn(t, acc) -> acc, acc, ZList(t)) -> acc =
-  "zlists" "foldl"
+  "erlang_zlists" "foldl"
 
 pub external fn map(fn(a) -> b, ZList(a)) -> ZList(b) =
-  "zlists" "map"
+  "erlang_zlists" "map"
 
 pub external fn seq(Int, Int, Int) -> ZList(Int) =
-  "zlists" "seq"
+  "erlang_zlists" "seq"
 
 pub external fn dropwhile(fn(t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "dropwhile"
+  "erlang_zlists" "dropwhile"
 
 pub external fn drop(Int, ZList(t)) -> ZList(t) =
-  "zlists" "drop"
+  "erlang_zlists" "drop"
 
 pub external fn takewhile(fn(t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "takewhile"
+  "erlang_zlists" "takewhile"
 
 pub external fn take(Int, ZList(t)) -> ZList(t) =
-  "zlists" "take"
+  "erlang_zlists" "take"
 
 pub external fn filter(fn(t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "filter"
+  "erlang_zlists" "filter"
 
 pub external fn expand(ZList(t)) -> List(t) =
-  "zlists" "expand"
+  "erlang_zlists" "expand"
 
 pub external fn append(ZList(ZList(t))) -> ZList(t) =
-  "zlists" "append"
+  "erlang_zlists" "append"
 
 pub external fn scroll(Int, ZList(t)) -> tuple(List(t), ZList(t)) =
-  "zlists" "scroll"
+  "erlang_zlists" "scroll"
 
 pub external fn merge(ZList(t), ZList(t)) -> ZList(t) =
-  "zlists" "merge"
+  "erlang_zlists" "merge"
 
 pub external fn splitwith(fn(t) -> Bool, ZList(t)) -> tuple(List(t), ZList(t)) =
-  "zlists" "splitwith"
+  "erlang_zlists" "splitwith"
 
 pub external fn cartesian(ZList(t), ZList(t)) -> ZList(t) =
-  "zlists" "cartesian"
+  "erlang_zlists" "cartesian"
 
 pub external fn zip(ZList(a), ZList(b)) -> ZList(tuple(a, b)) =
-  "zlists" "zip"
+  "erlang_zlists" "zip"
 
 pub external fn ziph(ZList(a), ZList(b)) -> ZList(tuple(a, b)) =
-  "zlists" "ziph"
+  "erlang_zlists" "ziph"
 
 pub external fn unique_1(ZList(t)) -> ZList(t) =
-  "zlists" "unique"
+  "erlang_zlists" "unique"
 
 pub external fn unique_2(fn(t, t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "unique"
+  "erlang_zlists" "unique"
 
 pub external fn count(ZList(t)) -> Int =
-  "zlists" "count"
+  "erlang_zlists" "count"
 
 pub external fn print(ZList(t)) -> Nil =
-  "zlists" "print"
+  "erlang_zlists" "print"
