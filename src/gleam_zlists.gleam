@@ -1,6 +1,11 @@
+//// This module contains some useful functions for working with **lazy lists**.
+////
+//// For more information see [this website](https://github.com/mrdimosthenis/gleam_zlists).
+
 import erl/interface as api
 
-type ZList(t) =
+/// A type for representing lazy lists.
+pub type ZList(t) =
   api.ZList(t)
 
 /// Converts a `list` to `ZList`.
