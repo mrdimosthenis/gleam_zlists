@@ -11,7 +11,19 @@ pub type ZList(t) =
 /// Converts a `list` to `ZList`.
 ///
 pub fn of_list(list: List(t)) -> ZList(t) {
-  api.new(list, fn() { [] })
+  api.new_1(list, fn() { [] })
+}
+
+/// Creates a ZList that contains the first argument, followed by the second.
+///
+/// # Examples
+///
+///   > zlist.append(zlist.range(1, 3, 1), zlist.range(4, 6, 1))
+///   > |> zlist.to_list
+///   [1, 2, 3, 4, 5, 6]
+///
+pub fn append(left: ZList(t), right: ZList(t)) -> ZList(t) {
+  api.new_2(left, fn() { right })
 }
 
 /// Converts a `zlist` to `List`.

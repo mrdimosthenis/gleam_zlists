@@ -2,6 +2,12 @@ import gleam/should
 import gleam/int
 import gleam_zlists as zlist
 
+pub fn append_test() {
+  zlist.append(zlist.range(1, 3, 1), zlist.range(4, 6, 1))
+  |> zlist.to_list
+  |> should.equal([1, 2, 3, 4, 5, 6])
+}
+
 pub fn range_test() {
   zlist.range(0, 3, 1)
   |> zlist.to_list

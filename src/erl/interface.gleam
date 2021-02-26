@@ -3,8 +3,12 @@ import erl/zlist
 pub type ZList(t) =
   zlist.ZList(t)
 
-pub fn new(ls: List(a), f: fn() -> List(t)) -> ZList(t) {
-  zlist.new(ls, f)
+pub fn new_1(ls: List(t), f: fn() -> List(t)) -> ZList(t) {
+  zlist.new_1(ls, f)
+}
+
+pub fn new_2(ls: ZList(t), f: fn() -> ZList(t)) -> ZList(t) {
+  zlist.new_2(ls, f)
 }
 
 pub fn generate(zl: ZList(t), f: fn(t) -> ZList(t1)) -> ZList(t1) {
