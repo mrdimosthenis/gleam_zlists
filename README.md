@@ -46,22 +46,76 @@ zlist.iterate(0, fn(x) { x + 1 })
 
 ```rust
 pub fn concat(zlists: ZList(ZList(a))) -> ZList(a)
-pub fn count(zlist: ZList(a)) -> Int
+```
+
+```rust
+count(zlist: ZList(a)) -> Int
+```
+
+```rust
 pub fn dedup(zlist: ZList(a)) -> ZList(a)
+```
+
+```rust
 pub fn drop(zlist: ZList(a), n: Int) -> ZList(a)
+```
+
+```rust
 pub fn drop_while(zlist: ZList(a), fun: fn(a) -> Bool) -> ZList(a)
+```
+
+```rust
 pub fn each(zlist: ZList(a), fun: fn(a) -> b) -> Nil
+```
+
+```rust
 pub fn filter(zlist: ZList(a), fun: fn(a) -> Bool) -> ZList(a)
+```
+
+```rust
 pub fn flat_map(zlist: ZList(a), fun: fn(a) -> ZList(b)) -> ZList(b)
+```
+
+```rust
 pub fn iterate(start_value: a, next_fun: fn(a) -> a) -> ZList(a)
+```
+
+```rust
 pub fn map(zlist: ZList(a), fun: fn(a) -> b) -> ZList(b)
+```
+
+```rust
 pub fn of_list(list: List(a)) -> ZList(a)
+```
+
+```rust
 pub fn range(first: Int, last: Int, step: Int) -> ZList(Int)
+```
+
+```rust
 pub fn reduce(zlist: ZList(a), acc: b, fun: fn(a, b) -> b) -> b
+```
+
+```rust
 pub fn split(zlist: ZList(a), n: Int) -> tuple(List(a), ZList(a))
+```
+
+```rust
 pub fn split_while(zlist: ZList(a), fun: fn(a) -> Bool) -> tuple(List(a), ZList(a))
+```
+
+```rust
 pub fn take(zlist: ZList(a), n: Int) -> ZList(a)
+```
+
+```rust
 pub fn take_while(zlist: ZList(a), fun: fn(a) -> Bool) -> ZList(a)
+```
+
+```rust
 pub fn to_list(zlist: ZList(a)) -> List(a)
+```
+
+```rust
 pub fn zip(left: ZList(a), right: ZList(b)) -> ZList(tuple(a, b))
 ```
