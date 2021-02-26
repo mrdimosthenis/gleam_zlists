@@ -9,99 +9,6 @@ pub fn append_test() {
   |> should.equal([1, 2, 3, 4, 5, 6])
 }
 
-pub fn singleton_test() {
-  10
-  |> zlist.singleton
-  |> zlist.to_list
-  |> should.equal([10])
-}
-
-pub fn empty_test() {
-  zlist.empty()
-  |> zlist.to_list
-  |> should.equal([])
-}
-
-pub fn is_empty_test() {
-  []
-  |> zlist.of_list
-  |> zlist.is_empty
-  |> should.equal(True)
-
-  [1, 2, 3]
-  |> zlist.of_list
-  |> zlist.is_empty
-  |> should.equal(False)
-}
-
-pub fn cons_test() {
-  zlist.range(1, 3, 1)
-  |> zlist.cons(0)
-  |> zlist.to_list
-  |> should.equal([0, 1, 2, 3])
-
-  []
-  |> zlist.of_list
-  |> zlist.cons(1)
-  |> zlist.to_list
-  |> should.equal([1])
-}
-
-pub fn head_test() {
-  zlist.range(1, 3, 1)
-  |> zlist.head
-  |> should.equal(Ok(1))
-
-  10
-  |> zlist.singleton
-  |> zlist.head
-  |> should.equal(Ok(10))
-
-  zlist.empty()
-  |> zlist.head
-  |> should.equal(Error(Nil))
-}
-
-pub fn tail_test() {
-  zlist.range(1, 3, 1)
-  |> zlist.tail
-  |> result.map(zlist.to_list)
-  |> should.equal(Ok([2, 3]))
-
-  10
-  |> zlist.singleton
-  |> zlist.tail
-  |> result.map(zlist.to_list)
-  |> should.equal(Ok([]))
-
-  zlist.empty()
-  |> zlist.tail
-  |> should.equal(Error(Nil))
-}
-
-pub fn uncons_test() {
-  zlist.range(1, 3, 1)
-  |> zlist.uncons
-  |> result.map(fn(res) {
-    let tuple(hd, tl) = res
-    tuple(hd, zlist.to_list(tl))
-  })
-  |> should.equal(Ok(tuple(1, [2, 3])))
-
-  10
-  |> zlist.singleton
-  |> zlist.uncons
-  |> result.map(fn(res) {
-    let tuple(hd, tl) = res
-    tuple(hd, zlist.to_list(tl))
-  })
-  |> should.equal(Ok(tuple(10, [])))
-
-  zlist.empty()
-  |> zlist.uncons
-  |> should.equal(Error(Nil))
-}
-
 pub fn range_test() {
   zlist.range(0, 3, 1)
   |> zlist.to_list
@@ -344,4 +251,97 @@ pub fn count_test() {
   |> zlist.of_list
   |> zlist.count
   |> should.equal(0)
+}
+
+pub fn singleton_test() {
+  10
+  |> zlist.singleton
+  |> zlist.to_list
+  |> should.equal([10])
+}
+
+pub fn empty_test() {
+  zlist.empty()
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn is_empty_test() {
+  []
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(True)
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(False)
+}
+
+pub fn cons_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.cons(0)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2, 3])
+
+  []
+  |> zlist.of_list
+  |> zlist.cons(1)
+  |> zlist.to_list
+  |> should.equal([1])
+}
+
+pub fn head_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.head
+  |> should.equal(Ok(1))
+
+  10
+  |> zlist.singleton
+  |> zlist.head
+  |> should.equal(Ok(10))
+
+  zlist.empty()
+  |> zlist.head
+  |> should.equal(Error(Nil))
+}
+
+pub fn tail_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.tail
+  |> result.map(zlist.to_list)
+  |> should.equal(Ok([2, 3]))
+
+  10
+  |> zlist.singleton
+  |> zlist.tail
+  |> result.map(zlist.to_list)
+  |> should.equal(Ok([]))
+
+  zlist.empty()
+  |> zlist.tail
+  |> should.equal(Error(Nil))
+}
+
+pub fn uncons_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.uncons
+  |> result.map(fn(res) {
+    let tuple(hd, tl) = res
+    tuple(hd, zlist.to_list(tl))
+  })
+  |> should.equal(Ok(tuple(1, [2, 3])))
+
+  10
+  |> zlist.singleton
+  |> zlist.uncons
+  |> result.map(fn(res) {
+    let tuple(hd, tl) = res
+    tuple(hd, zlist.to_list(tl))
+  })
+  |> should.equal(Ok(tuple(10, [])))
+
+  zlist.empty()
+  |> zlist.uncons
+  |> should.equal(Error(Nil))
 }
