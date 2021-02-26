@@ -1,6 +1,6 @@
 # gleam_zlists
 
-This is a library for working with **lazy lists** in **Gleam**.
+A library for working with **lazy lists** in **Gleam**.
 
 ## Installation
 
