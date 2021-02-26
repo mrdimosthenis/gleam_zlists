@@ -2,6 +2,8 @@
 
 A library for working with **lazy lists** in **Gleam**.
 
+_Honestly, is just a wrapper for_ [vjache/erlang-zlists](https://github.com/vjache/erlang-zlists) :pleading_face:
+
 ## Installation
 
 Add `gleam_zlists` to your `rebar.config` dependencies:
