@@ -10,7 +10,7 @@ Add `gleam_zlists` to your `rebar.config` dependencies:
 
 ```erlang
 {deps, [
-    {gleam_zlists, {git, "https://github.com/mrdimosthenis/gleam_zlists", {tag, "0.1"}}
+    {gleam_zlists, "0.0.1"}
 ]}.
 ```
 
