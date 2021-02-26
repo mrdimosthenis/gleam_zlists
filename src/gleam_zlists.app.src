@@ -1,6 +1,6 @@
 {application, gleam_zlists,
  [{description, "A library for working with lazy lists in Gleam"},
-  {vsn, "0.0.1"},
+  {vsn, "0.0.2"},
   {registered, []},
   {applications,
    [kernel,
