@@ -16,30 +16,30 @@ Add `gleam_zlists` to your `rebar.config` dependencies:
 
 ## Examples
 
-```
-> import gleam_zlists.{ZList} as zlist
+```rust
+import gleam_zlists.{ZList} as zlist
 
-> [1, 2, 3]
-> |> zlist.of_list
-> |> zlist.map(fn(x) { 2 * x })
-> |> zlist.to_list
-[2, 4, 6]
+[1, 2, 3]
+|> zlist.of_list
+|> zlist.map(fn(x) { 2 * x })
+|> zlist.to_list
+// [2, 4, 6]
 
-> [1, 2, 3]
-> |> zlist.of_list
-> |> zlist.filter(fn(x) { int.is_even(x) })
-> |> zlist.to_list
-[2]
+[1, 2, 3]
+|> zlist.of_list
+|> zlist.filter(fn(x) { int.is_even(x) })
+|> zlist.to_list
+// [2]
 
-> [1, 2, 3]
-> |> zlist.of_list
-> |> zlist.reduce(0, fn(x, acc) { x + acc })
-6
+[1, 2, 3]
+|> zlist.of_list
+|> zlist.reduce(0, fn(x, acc) { x + acc })
+// 6
 
-> zlist.iterate(0, fn(x) { x + 1 })
-> |> zlist.take(5)
-> |> zlist.to_list
-[0, 1, 2, 3, 4]
+zlist.iterate(0, fn(x) { x + 1 })
+|> zlist.take(5)
+|> zlist.to_list
+// [0, 1, 2, 3, 4]
 ```
 
 ## Function Signatures
