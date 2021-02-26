@@ -65,7 +65,7 @@ drop_while(zlist: ZList(a), fun: fn(a) -> Bool) -> ZList(a)
 ```
 
 ```rust
-pub fn each(zlist: ZList(a), fun: fn(a) -> b) -> Nil
+each(zlist: ZList(a), fun: fn(a) -> b) -> Nil
 ```
 
 ```rust
