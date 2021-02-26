@@ -84,6 +84,77 @@ pub fn cons(zlist: ZList(t), first_value) -> ZList(t) {
   |> append(zlist)
 }
 
+/// Gets the first element of the `zlist`, if there is one.
+///
+/// # Examples
+///
+///   > zlist.range(1, 3, 1)
+///   > |> zlist.head
+///   Ok(1)
+///
+///   > zlist.empty()
+///   > |> zlist.head
+///   Error(Nil)
+///
+pub fn head(zlist: ZList(t)) -> Result(t, Nil) {
+  let ls =
+    zlist
+    |> take(1)
+    |> to_list
+  case ls {
+    [] -> Error(Nil)
+    [v] -> Ok(v)
+  }
+}
+
+/// Gets the `zlist` minus the first value. If the `zlist` is empty, `Error(Nil)` is returned.
+///
+/// # Examples
+///
+///   > zlist.range(1, 3, 1)
+///   > |> zlist.tail
+///   > |> result.map(zlist.to_list)
+///   Ok([2, 3])
+///
+///   > zlist.empty()
+///   > |> zlist.tail
+///   Error(Nil)
+///
+pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
+  let ls =
+    zlist
+    |> take(1)
+    |> to_list
+  case ls {
+    [] -> Error(Nil)
+    [_] ->
+      zlist
+      |> drop(1)
+      |> Ok
+  }
+}
+
+/// Returns the tuple of the head value and the tail of the list. If the `zlist` is empty, `Error(Nil)` is returned.
+///
+/// # Examples
+///
+///   > zlist.range(1, 3, 1)
+///   > |> zlist.uncons
+///   > |> result.map(fn(res) {
+///   >   let tuple(hd, tl) = res
+///   >   tuple(hd, zlist.to_list(tl))
+///   > })
+///   Ok(tuple(1, [2, 3]))
+///
+pub fn uncons(zlist: ZList(t)) -> Result(tuple(t, ZList(t)), Nil) {
+  case tuple(head(zlist), tail(zlist)) {
+    tuple(Ok(hd), Ok(tl)) ->
+      tuple(hd, tl)
+      |> Ok
+    _ -> Error(Nil)
+  }
+}
+
 /// Converts a `zlist` to `List`.
 ///
 /// # Examples

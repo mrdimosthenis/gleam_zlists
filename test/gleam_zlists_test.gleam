@@ -1,5 +1,6 @@
 import gleam/should
 import gleam/int
+import gleam/result
 import gleam_zlists as zlist
 
 pub fn append_test() {
@@ -44,6 +45,61 @@ pub fn cons_test() {
   |> zlist.cons(1)
   |> zlist.to_list
   |> should.equal([1])
+}
+
+pub fn head_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.head
+  |> should.equal(Ok(1))
+
+  10
+  |> zlist.singleton
+  |> zlist.head
+  |> should.equal(Ok(10))
+
+  zlist.empty()
+  |> zlist.head
+  |> should.equal(Error(Nil))
+}
+
+pub fn tail_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.tail
+  |> result.map(zlist.to_list)
+  |> should.equal(Ok([2, 3]))
+
+  10
+  |> zlist.singleton
+  |> zlist.tail
+  |> result.map(zlist.to_list)
+  |> should.equal(Ok([]))
+
+  zlist.empty()
+  |> zlist.tail
+  |> should.equal(Error(Nil))
+}
+
+pub fn uncons_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.uncons
+  |> result.map(fn(res) {
+    let tuple(hd, tl) = res
+    tuple(hd, zlist.to_list(tl))
+  })
+  |> should.equal(Ok(tuple(1, [2, 3])))
+
+  10
+  |> zlist.singleton
+  |> zlist.uncons
+  |> result.map(fn(res) {
+    let tuple(hd, tl) = res
+    tuple(hd, zlist.to_list(tl))
+  })
+  |> should.equal(Ok(tuple(10, [])))
+
+  zlist.empty()
+  |> zlist.uncons
+  |> should.equal(Error(Nil))
 }
 
 pub fn range_test() {
