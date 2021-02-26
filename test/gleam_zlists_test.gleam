@@ -8,6 +8,44 @@ pub fn append_test() {
   |> should.equal([1, 2, 3, 4, 5, 6])
 }
 
+pub fn singleton_test() {
+  10
+  |> zlist.singleton
+  |> zlist.to_list
+  |> should.equal([10])
+}
+
+pub fn empty_test() {
+  zlist.empty()
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn is_empty_test() {
+  []
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(True)
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(False)
+}
+
+pub fn cons_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.cons(0)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2, 3])
+
+  []
+  |> zlist.of_list
+  |> zlist.cons(1)
+  |> zlist.to_list
+  |> should.equal([1])
+}
+
 pub fn range_test() {
   zlist.range(0, 3, 1)
   |> zlist.to_list

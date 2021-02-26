@@ -26,6 +26,64 @@ pub fn append(left: ZList(t), right: ZList(t)) -> ZList(t) {
   api.new_2(left, fn() { right })
 }
 
+/// Creates a `ZList` of just one specified `value`.
+///
+/// # Examples
+///
+///   > 10
+///   > |> zlist.singleton
+///   > |> zlist.to_list
+///   [10]
+///
+pub fn singleton(value: t) -> ZList(t) {
+  of_list([value])
+}
+
+/// Creates an empty `ZList`.
+///
+/// # Examples
+///
+///   > zlist.empty()
+///   > |> zlist.to_list
+///   []
+///
+pub fn empty() -> ZList(t) {
+  of_list([])
+}
+
+/// Determines if the `ZList` is empty.
+///
+/// # Examples
+///
+///   > []
+///   > |> zlist.of_list
+///   > |> zlist.is_empty
+///   True
+///
+///   > [1, 2, 3]
+///   > |> zlist.of_list
+///   > |> zlist.is_empty
+///   False
+///
+pub fn is_empty(zlist: ZList(t)) -> Bool {
+  count(zlist) == 0
+}
+
+/// Return a new `ZList` which contains the `first_value` followed by the `zlist`.
+///
+/// # Examples
+///
+///   > zlist.range(1, 3, 1)
+///   > |> zlist.cons(0)
+///   > |> zlist.to_list
+///   [0, 1, 2, 3]
+///
+pub fn cons(zlist: ZList(t), first_value) -> ZList(t) {
+  first_value
+  |> singleton
+  |> append(zlist)
+}
+
 /// Converts a `zlist` to `List`.
 ///
 /// # Examples
