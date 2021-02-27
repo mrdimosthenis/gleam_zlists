@@ -1,6 +1,9 @@
 pub external type ZList(a)
 
-pub external fn new(List(a), fn() -> List(t)) -> ZList(t) =
+pub external fn new_1(List(t), fn() -> List(t)) -> ZList(t) =
+  "zlists" "new"
+
+pub external fn new_2(ZList(t), fn() -> ZList(t)) -> ZList(t) =
   "zlists" "new"
 
 pub external fn generate(ZList(t), fn(t) -> ZList(t1)) -> ZList(t1) =

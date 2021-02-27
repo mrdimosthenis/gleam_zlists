@@ -1,6 +1,14 @@
 import gleam/should
 import gleam/int
+import gleam/string
+import gleam/result
 import gleam_zlists as zlist
+
+pub fn append_test() {
+  zlist.append(zlist.range(1, 3, 1), zlist.range(4, 6, 1))
+  |> zlist.to_list
+  |> should.equal([1, 2, 3, 4, 5, 6])
+}
 
 pub fn range_test() {
   zlist.range(0, 3, 1)
@@ -29,6 +37,12 @@ pub fn take_test() {
   |> zlist.take(0)
   |> zlist.to_list
   |> should.equal([])
+
+  []
+  |> zlist.of_list
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([])
 }
 
 pub fn flat_map_test() {
@@ -51,6 +65,18 @@ pub fn reduce_test() {
   |> zlist.of_list
   |> zlist.reduce(0, fn(x, acc) { x + acc })
   |> should.equal(6)
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.reduce(
+    "0",
+    fn(x, acc) {
+      x
+      |> int.to_string
+      |> string.append(acc)
+    },
+  )
+  |> should.equal("3210")
 }
 
 pub fn map_test() {
@@ -99,12 +125,18 @@ pub fn drop_test() {
   |> zlist.drop(0)
   |> zlist.to_list
   |> should.equal([1, 2, 3])
-  // the next assertion throws an exception
-  //[1, 2, 3]
-  //|> zlist.of_list
-  //|> zlist.drop(10)
-  //|> zlist.to_list
-  //|> should.equal([])
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.drop(10)
+  |> zlist.to_list
+  |> should.equal([])
+
+  []
+  |> zlist.of_list
+  |> zlist.drop(10)
+  |> zlist.to_list
+  |> should.equal([])
 }
 
 pub fn take_while_test() {
@@ -169,6 +201,15 @@ pub fn split_3_test() {
   should.equal(tuple(ls_a, ls_b), tuple([], [1, 2, 3]))
 }
 
+pub fn split_4_test() {
+  let tuple(ls_a, zls_b) =
+    []
+    |> zlist.of_list
+    |> zlist.split(4)
+  let ls_b = zlist.to_list(zls_b)
+  should.equal(tuple(ls_a, ls_b), tuple([], []))
+}
+
 pub fn split_while_1_test() {
   let tuple(ls_a, zls_b) =
     [1, 2, 3, 4]
@@ -194,6 +235,15 @@ pub fn split_while_3_test() {
     |> zlist.split_while(fn(x) { x > 0 })
   let ls_b = zlist.to_list(zls_b)
   should.equal(tuple(ls_a, ls_b), tuple([1, 2, 3, 4], []))
+}
+
+pub fn split_while_4_test() {
+  let tuple(ls_a, zls_b) =
+    []
+    |> zlist.of_list
+    |> zlist.split_while(fn(x) { x < 0 })
+  let ls_b = zlist.to_list(zls_b)
+  should.equal(tuple(ls_a, ls_b), tuple([], []))
 }
 
 pub fn zip_1_test() {
@@ -244,4 +294,284 @@ pub fn count_test() {
   |> zlist.of_list
   |> zlist.count
   |> should.equal(0)
+}
+
+pub fn singleton_test() {
+  10
+  |> zlist.singleton
+  |> zlist.to_list
+  |> should.equal([10])
+}
+
+pub fn new_test() {
+  zlist.new()
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn is_empty_test() {
+  []
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(True)
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(False)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(False)
+}
+
+pub fn cons_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.cons(0)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2, 3])
+
+  []
+  |> zlist.of_list
+  |> zlist.cons(1)
+  |> zlist.to_list
+  |> should.equal([1])
+}
+
+pub fn head_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.head
+  |> should.equal(Ok(1))
+
+  10
+  |> zlist.singleton
+  |> zlist.head
+  |> should.equal(Ok(10))
+
+  zlist.new()
+  |> zlist.head
+  |> should.equal(Error(Nil))
+}
+
+pub fn tail_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.tail
+  |> result.map(zlist.to_list)
+  |> should.equal(Ok([2, 3]))
+
+  10
+  |> zlist.singleton
+  |> zlist.tail
+  |> result.map(zlist.to_list)
+  |> should.equal(Ok([]))
+
+  zlist.new()
+  |> zlist.tail
+  |> should.equal(Error(Nil))
+}
+
+pub fn uncons_test() {
+  zlist.range(1, 3, 1)
+  |> zlist.uncons
+  |> result.map(fn(res) {
+    let tuple(hd, tl) = res
+    tuple(hd, zlist.to_list(tl))
+  })
+  |> should.equal(Ok(tuple(1, [2, 3])))
+
+  10
+  |> zlist.singleton
+  |> zlist.uncons
+  |> result.map(fn(res) {
+    let tuple(hd, tl) = res
+    tuple(hd, zlist.to_list(tl))
+  })
+  |> should.equal(Ok(tuple(10, [])))
+
+  zlist.new()
+  |> zlist.uncons
+  |> should.equal(Error(Nil))
+}
+
+pub fn all_test() {
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.all(int.is_even)
+  |> should.equal(True)
+
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.all(int.is_even)
+  |> should.equal(False)
+
+  []
+  |> zlist.of_list
+  |> zlist.all(fn(x) { x > 0 })
+  |> should.equal(True)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.all(fn(x) { x > 0 })
+  |> should.equal(True)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.all(fn(x) { x < 0 })
+  |> should.equal(False)
+}
+
+pub fn any_test() {
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.any(int.is_odd)
+  |> should.equal(False)
+
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.any(int.is_odd)
+  |> should.equal(True)
+
+  []
+  |> zlist.of_list
+  |> zlist.any(fn(x) { x > 0 })
+  |> should.equal(False)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.any(fn(x) { x > 0 })
+  |> should.equal(True)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.any(fn(x) { x < 0 })
+  |> should.equal(False)
+}
+
+pub fn fetch_test() {
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.fetch(0)
+  |> should.equal(Ok(2))
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.fetch(2)
+  |> should.equal(Ok(6))
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.fetch(3)
+  |> should.equal(Error(Nil))
+
+  []
+  |> zlist.of_list
+  |> zlist.fetch(0)
+  |> should.equal(Error(Nil))
+}
+
+pub fn find_test() {
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.find(int.is_odd)
+  |> should.equal(Ok(3))
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.find(int.is_odd)
+  |> should.equal(Error(Nil))
+
+  []
+  |> zlist.of_list
+  |> zlist.find(int.is_odd)
+  |> should.equal(Error(Nil))
+}
+
+pub fn has_member_test() {
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.has_member(3)
+  |> should.equal(True)
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.has_member(8)
+  |> should.equal(False)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.has_member(1)
+  |> should.equal(True)
+
+  []
+  |> zlist.of_list
+  |> zlist.has_member(1)
+  |> should.equal(False)
+}
+
+pub fn reverse_test() {
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.reverse
+  |> zlist.to_list
+  |> should.equal([3, 2, 1])
+
+  []
+  |> zlist.of_list
+  |> zlist.reverse
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn slice_test() {
+  zlist.range(1, 100, 1)
+  |> zlist.slice(5, 10)
+  |> zlist.to_list
+  |> should.equal([6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+
+  zlist.range(1, 10, 1)
+  |> zlist.slice(5, 100)
+  |> zlist.to_list
+  |> should.equal([6, 7, 8, 9, 10])
+
+  zlist.range(1, 10, 1)
+  |> zlist.slice(5, 0)
+  |> zlist.to_list
+  |> should.equal([])
+
+  zlist.range(1, 10, 1)
+  |> zlist.slice(10, 0)
+  |> zlist.to_list
+  |> should.equal([])
+
+  zlist.new()
+  |> zlist.slice(10, 3)
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn indices_test() {
+  zlist.indices()
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2])
+
+  zlist.indices()
+  |> zlist.take(5)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2, 3, 4])
+}
+
+pub fn with_index_test() {
+  ["a", "b", "c"]
+  |> zlist.of_list
+  |> zlist.with_index
+  |> zlist.to_list
+  |> should.equal([tuple("a", 0), tuple("b", 1), tuple("c", 2)])
+
+  []
+  |> zlist.of_list
+  |> zlist.with_index
+  |> zlist.to_list
+  |> should.equal([])
 }

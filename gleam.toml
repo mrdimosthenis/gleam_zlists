@@ -1,6 +1,12 @@
 name = "gleam_zlists"
+version = "0.0.2"
 
-# [docs]
-# links = [
-#   { title = 'GitHub', href = 'https://github.com/username/project_name' }
-# ]
+[docs]
+links = [
+  { title = 'GitHub', href = 'https://github.com/mrdimosthenis/gleam_zlists' }
+]
+
+[repository]
+type = "github"
+user = "mrdimosthenis"
+repo = "gleam_zlists"
