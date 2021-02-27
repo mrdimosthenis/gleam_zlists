@@ -512,3 +512,28 @@ pub fn fetch(zlist: ZList(t), index: Int) -> Result(t, Nil) {
   |> drop(index)
   |> head
 }
+
+/// Returns `Ok(element)` for the first element that `fun` returns `True`.
+/// If no such element is found, returns `Error(Nil)`.
+///
+/// # Examples
+///
+///   > [2, 3, 4]
+///   > |> zlist.of_list
+///   > |> zlist.find(int.is_odd)
+///   Ok(3)
+///
+///   > [2, 4, 6]
+///   > |> zlist.of_list
+///   > |> zlist.find(int.is_odd)
+///   Error(Nil)
+///
+pub fn find(zlist: ZList(t), fun: fn(t) -> Bool) -> Result(t, Nil) {
+  zlist
+  |> drop_while(fn(x) {
+    x
+    |> fun
+    |> bool.negate
+  })
+  |> head
+}

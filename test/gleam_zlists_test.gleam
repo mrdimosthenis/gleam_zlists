@@ -456,3 +456,20 @@ pub fn fetch_test() {
   |> zlist.fetch(0)
   |> should.equal(Error(Nil))
 }
+
+pub fn find_test() {
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.find(int.is_odd)
+  |> should.equal(Ok(3))
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.find(int.is_odd)
+  |> should.equal(Error(Nil))
+
+  []
+  |> zlist.of_list
+  |> zlist.find(int.is_odd)
+  |> should.equal(Error(Nil))
+}
