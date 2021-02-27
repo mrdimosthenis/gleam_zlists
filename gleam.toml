@@ -5,3 +5,8 @@ version = "0.0.2"
 links = [
   { title = 'GitHub', href = 'https://github.com/mrdimosthenis/gleam_zlists' }
 ]
+
+[repository]
+type = "github"
+user = "mrdimosthenis"
+repo = "gleam_zlists"
