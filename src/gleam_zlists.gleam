@@ -325,7 +325,11 @@ pub fn new() -> ZList(t) {
 ///   False
 ///
 pub fn is_empty(zlist: ZList(t)) -> Bool {
-  count(zlist) == 0
+  let head_length =
+    zlist
+    |> take(1)
+    |> count
+  head_length == 0
 }
 
 /// Return a new `ZList` which contains the `first_value` followed by the `zlist`.
