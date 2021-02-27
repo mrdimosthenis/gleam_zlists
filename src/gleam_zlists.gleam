@@ -2,6 +2,7 @@
 ////
 //// For more information see [this website](https://github.com/mrdimosthenis/gleam_zlists).
 
+import gleam/bool
 import erl/interface as api
 
 /// A type for representing lazy lists.
@@ -370,7 +371,7 @@ pub fn head(zlist: ZList(t)) -> Result(t, Nil) {
   }
 }
 
-/// Gets the `zlist` minus the first value. If the `zlist` is empty, `Error(Nil)` is returned.
+/// Gets the `zlist` minus the first element. If the `zlist` is empty, `Error(Nil)` is returned.
 ///
 /// # Examples
 ///
@@ -397,7 +398,7 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
   }
 }
 
-/// Returns the tuple of the first value and the tail of the `zlist`. If the `zlist` is empty, `Error(Nil)` is returned.
+/// Returns the tuple of the first element and the tail of the `zlist`. If the `zlist` is empty, `Error(Nil)` is returned.
 ///
 /// # Examples
 ///
@@ -416,4 +417,76 @@ pub fn uncons(zlist: ZList(t)) -> Result(tuple(t, ZList(t)), Nil) {
       |> Ok
     _ -> Error(Nil)
   }
+}
+
+/// Iterates over the `zlist` and invokes `fun` on each element.
+/// When an invocation of `fun` returns `False`, iteration stops immediately and `False` is returned.
+/// In all other cases `True` is returned.
+///
+/// # Examples
+///
+///   > [2, 4, 6]
+///   > |> zlist.of_list
+///   > |> zlist.all(int.is_even)
+///   True
+///
+///   > [2, 3, 4]
+///   > |> zlist.of_list
+///   > |> zlist.all(int.is_even)
+///   False
+///
+///   > []
+///   > |> zlist.of_list
+///   > |> zlist.all(fn(x) { x > 0 })
+///   True
+///
+pub fn all(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
+  case uncons(zlist) {
+    Error(Nil) -> True
+    Ok(tuple(hd, tl)) -> {
+      let head_bool = fun(hd)
+      let tuple(_, diff_bool_zls) =
+        split_while(tl, fn(x) { fun(x) == head_bool })
+      case is_empty(diff_bool_zls) {
+        True -> head_bool
+        False -> bool.negate(head_bool)
+      }
+    }
+  }
+}
+
+/// Iterates over the `zlist` and invokes `fun` on each element.
+/// When an invocation of `fun` returns `True`, iteration stops immediately and `True` is returned.
+/// In all other cases `False` is returned.
+///
+/// # Examples
+///
+///   > [2, 4, 6]
+///   > |> zlist.of_list
+///   > |> zlist.any(int.is_odd)
+///   False
+///
+///   > [2, 3, 4]
+///   > |> zlist.of_list
+///   > |> zlist.any(int.is_odd)
+///   True
+///
+///   > []
+///   > |> zlist.of_list
+///   > |> zlist.any(fn(x) { x > 0 })
+///   False
+///
+pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
+  let tuple(_, zls_b) =
+    split_while(
+      zlist,
+      fn(x) {
+        x
+        |> fun
+        |> bool.negate
+      },
+    )
+  zls_b
+  |> is_empty
+  |> bool.negate
 }

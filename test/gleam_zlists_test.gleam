@@ -203,6 +203,15 @@ pub fn split_while_3_test() {
   should.equal(tuple(ls_a, ls_b), tuple([1, 2, 3, 4], []))
 }
 
+pub fn split_while_4_test() {
+  let tuple(ls_a, zls_b) =
+    []
+    |> zlist.of_list
+    |> zlist.split_while(fn(x) { x < 0 })
+  let ls_b = zlist.to_list(zls_b)
+  should.equal(tuple(ls_a, ls_b), tuple([], []))
+}
+
 pub fn zip_1_test() {
   let left = zlist.of_list([1, 2, 3])
   let right = zlist.of_list(["foo", "bar", "baz"])
@@ -276,6 +285,11 @@ pub fn is_empty_test() {
   |> zlist.of_list
   |> zlist.is_empty
   |> should.equal(False)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.is_empty
+  |> should.equal(False)
 }
 
 pub fn cons_test() {
@@ -344,4 +358,58 @@ pub fn uncons_test() {
   zlist.new()
   |> zlist.uncons
   |> should.equal(Error(Nil))
+}
+
+pub fn all_test() {
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.all(int.is_even)
+  |> should.equal(True)
+
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.all(int.is_even)
+  |> should.equal(False)
+
+  []
+  |> zlist.of_list
+  |> zlist.all(fn(x) { x > 0 })
+  |> should.equal(True)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.all(fn(x) { x > 0 })
+  |> should.equal(True)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.all(fn(x) { x < 0 })
+  |> should.equal(False)
+}
+
+pub fn any_test() {
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.any(int.is_odd)
+  |> should.equal(False)
+
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.any(int.is_odd)
+  |> should.equal(True)
+
+  []
+  |> zlist.of_list
+  |> zlist.any(fn(x) { x > 0 })
+  |> should.equal(False)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.any(fn(x) { x > 0 })
+  |> should.equal(True)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.any(fn(x) { x < 0 })
+  |> should.equal(False)
 }
