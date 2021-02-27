@@ -4,7 +4,7 @@ A library for working with **lazy lists** in **Gleam**.
 
 It is a wrapper for [vjache/erlang-zlists](https://github.com/vjache/erlang-zlists), enriched with more functions.
 
-The documentation is available on [HexDocs](https://hexdocs.pm/gleam_zlists/).
+The documentation is available on [HexDocs](https://hexdocs.pm/gleam_zlists/gleam_zlists/).
 
 ## Installation
 
