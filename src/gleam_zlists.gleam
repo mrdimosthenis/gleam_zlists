@@ -153,7 +153,7 @@ pub fn drop_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
 }
 
 /// Lazily drops the next `n` elements from the `zlist`.
-/// `n` should **not** be **negative** or **greater** than the **length** of the `zlist`.
+/// `n` should **not** be **negative**.
 ///
 /// # Examples
 ///
@@ -164,7 +164,8 @@ pub fn drop_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
 ///   [3]
 ///
 pub fn drop(zlist: ZList(t), n: Int) -> ZList(t) {
-  api.drop(n, zlist)
+  let tuple(_, zls) = split(zlist, n)
+  zls
 }
 
 /// Lazily takes elements of the `zlist` while the given function returns `True`.

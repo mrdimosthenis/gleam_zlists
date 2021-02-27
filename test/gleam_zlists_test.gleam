@@ -36,6 +36,12 @@ pub fn take_test() {
   |> zlist.take(0)
   |> zlist.to_list
   |> should.equal([])
+
+  []
+  |> zlist.of_list
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([])
 }
 
 pub fn flat_map_test() {
@@ -106,12 +112,18 @@ pub fn drop_test() {
   |> zlist.drop(0)
   |> zlist.to_list
   |> should.equal([1, 2, 3])
-  // the next assertion throws an exception
-  //[1, 2, 3]
-  //|> zlist.of_list
-  //|> zlist.drop(10)
-  //|> zlist.to_list
-  //|> should.equal([])
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.drop(10)
+  |> zlist.to_list
+  |> should.equal([])
+
+  []
+  |> zlist.of_list
+  |> zlist.drop(10)
+  |> zlist.to_list
+  |> should.equal([])
 }
 
 pub fn take_while_test() {
@@ -174,6 +186,15 @@ pub fn split_3_test() {
     |> zlist.split(0)
   let ls_b = zlist.to_list(zls_b)
   should.equal(tuple(ls_a, ls_b), tuple([], [1, 2, 3]))
+}
+
+pub fn split_4_test() {
+  let tuple(ls_a, zls_b) =
+    []
+    |> zlist.of_list
+    |> zlist.split(4)
+  let ls_b = zlist.to_list(zls_b)
+  should.equal(tuple(ls_a, ls_b), tuple([], []))
 }
 
 pub fn split_while_1_test() {
