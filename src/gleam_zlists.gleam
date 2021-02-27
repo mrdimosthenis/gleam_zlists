@@ -537,3 +537,24 @@ pub fn find(zlist: ZList(t), fun: fn(t) -> Bool) -> Result(t, Nil) {
   })
   |> head
 }
+
+/// Checks if `element` exists within the `zlist`.
+///
+/// # Examples
+///
+///   > [2, 3, 4]
+///   > |> zlist.of_list
+///   > |> zlist.has_member(3)
+///   True
+///
+///   > [2, 4, 6]
+///   > |> zlist.of_list
+///   > |> zlist.has_member(8)
+///   False
+///
+pub fn has_member(zlist: ZList(t), element: t) -> Bool {
+  case find(zlist, fn(x) { x == element }) {
+    Ok(_) -> True
+    Error(Nil) -> False
+  }
+}

@@ -473,3 +473,25 @@ pub fn find_test() {
   |> zlist.find(int.is_odd)
   |> should.equal(Error(Nil))
 }
+
+pub fn has_member_test() {
+  [2, 3, 4]
+  |> zlist.of_list
+  |> zlist.has_member(3)
+  |> should.equal(True)
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.has_member(8)
+  |> should.equal(False)
+
+  [1]
+  |> zlist.of_list
+  |> zlist.has_member(1)
+  |> should.equal(True)
+
+  []
+  |> zlist.of_list
+  |> zlist.has_member(1)
+  |> should.equal(False)
+}
