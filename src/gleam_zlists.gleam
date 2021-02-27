@@ -19,8 +19,8 @@ pub fn of_list(list: List(t)) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.append(zlist.range(1, 3, 1), zlist.range(4, 6, 1))
-///   > |> zlist.to_list
+///   > append(range(1, 3, 1), range(4, 6, 1))
+///   > |> to_list
 ///   [1, 2, 3, 4, 5, 6]
 ///
 pub fn append(left: ZList(t), right: ZList(t)) -> ZList(t) {
@@ -31,8 +31,8 @@ pub fn append(left: ZList(t), right: ZList(t)) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.range(0, 3, 1)
-///   > |> zlist.to_list
+///   > range(0, 3, 1)
+///   > |> to_list
 ///   [0, 1, 2, 3]
 ///
 pub fn to_list(zlist: ZList(t)) -> List(t) {
@@ -45,12 +45,12 @@ pub fn to_list(zlist: ZList(t)) -> List(t) {
 ///
 /// # Examples
 ///
-///   > zlist.range(0, 3, 1)
-///   > |> zlist.to_list
+///   > range(0, 3, 1)
+///   > |> to_list
 ///   [0, 1, 2, 3]
 ///
-///   > zlist.range(-3, 5, 2)
-///   > |> zlist.to_list
+///   > range(-3, 5, 2)
+///   > |> to_list
 ///   [-3, -1, 1, 3, 5]
 ///
 pub fn range(first: Int, last: Int, step: Int) -> ZList(Int) {
@@ -62,9 +62,9 @@ pub fn range(first: Int, last: Int, step: Int) -> ZList(Int) {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 100, 1)
-///   > |> zlist.take(5)
-///   > |> zlist.to_list
+///   > range(1, 100, 1)
+///   > |> take(5)
+///   > |> to_list
 ///   [1, 2, 3, 4, 5]
 ///
 pub fn take(zlist: ZList(t), n: Int) -> ZList(t) {
@@ -77,9 +77,9 @@ pub fn take(zlist: ZList(t), n: Int) -> ZList(t) {
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.flat_map(fn(x) { zlist.of_list([x, 2 * x]) })
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> flat_map(fn(x) { of_list([x, 2 * x]) })
+///   > |> to_list
 ///   [1, 2, 2, 4, 3, 6]
 ///
 pub fn flat_map(zlist: ZList(t), fun: fn(t) -> ZList(t1)) -> ZList(t1) {
@@ -91,9 +91,9 @@ pub fn flat_map(zlist: ZList(t), fun: fn(t) -> ZList(t1)) -> ZList(t1) {
 ///
 /// # Examples
 ///
-///   > zlist.iterate(0, fn(x) { x + 1 })
-///   > |> zlist.take(5)
-///   > |> zlist.to_list
+///   > iterate(0, fn(x) { x + 1 })
+///   > |> take(5)
+///   > |> to_list
 ///   [0, 1, 2, 3, 4]
 ///
 pub fn iterate(start_value: t, next_fun: fn(t) -> t) -> ZList(t) {
@@ -116,8 +116,8 @@ pub fn each(zlist: ZList(t), fun: fn(t) -> any) -> Nil {
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.reduce(0, fn(x, acc) { x + acc })
+///   > |> of_list
+///   > |> reduce(0, fn(x, acc) { x + acc })
 ///   6
 ///
 pub fn reduce(zlist: ZList(t), acc: accum, fun: fn(t, accum) -> accum) -> accum {
@@ -129,9 +129,9 @@ pub fn reduce(zlist: ZList(t), acc: accum, fun: fn(t, accum) -> accum) -> accum 
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.map(fn(x) { 2 * x })
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> map(fn(x) { 2 * x })
+///   > |> to_list
 ///   [2, 4, 6]
 ///
 pub fn map(zlist: ZList(a), fun: fn(a) -> b) -> ZList(b) {
@@ -143,9 +143,9 @@ pub fn map(zlist: ZList(a), fun: fn(a) -> b) -> ZList(b) {
 /// # Examples
 ///
 ///   > [1, 2, 3, 2, 1]
-///   > |> zlist.of_list
-///   > |> zlist.drop_while(fn(x) { x < 3 })
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> drop_while(fn(x) { x < 3 })
+///   > |> to_list
 ///   [3, 2, 1]
 ///
 pub fn drop_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
@@ -158,9 +158,9 @@ pub fn drop_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.drop(2)
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> drop(2)
+///   > |> to_list
 ///   [3]
 ///
 pub fn drop(zlist: ZList(t), n: Int) -> ZList(t) {
@@ -172,9 +172,9 @@ pub fn drop(zlist: ZList(t), n: Int) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 100, 1)
-///   > |> zlist.take_while(fn(x) { x <= 5 })
-///   > |> zlist.to_list
+///   > range(1, 100, 1)
+///   > |> take_while(fn(x) { x <= 5 })
+///   > |> to_list
 ///   [1, 2, 3, 4, 5]
 ///
 pub fn take_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
@@ -186,9 +186,9 @@ pub fn take_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.filter(fn(x) { int.is_even(x) })
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> filter(fn(x) { int.is_even(x) })
+///   > |> to_list
 ///   [2]
 ///
 pub fn filter(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
@@ -199,10 +199,10 @@ pub fn filter(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > [zlist.range(1, 3, 1), zlist.range(4, 6, 1), zlist.range(7, 9, 1)]
-///   > |> zlist.of_list
-///   > |> zlist.concat
-///   > |> zlist.to_list
+///   > [range(1, 3, 1), range(4, 6, 1), range(7, 9, 1)]
+///   > |> of_list
+///   > |> concat
+///   > |> to_list
 ///   [1, 2, 3, 4, 5, 6, 7, 8, 9]
 ///
 pub fn concat(zlists: ZList(ZList(t))) -> ZList(t) {
@@ -215,9 +215,9 @@ pub fn concat(zlists: ZList(ZList(t))) -> ZList(t) {
 ///
 ///   > let tuple(ls_a, zls_b) =
 ///   >   [1, 2, 3]
-///   >   |> zlist.of_list
-///   >   |> zlist.split(2)
-///   > let ls_b = zlist.to_list(zls_b)
+///   >   |> of_list
+///   >   |> split(2)
+///   > let ls_b = to_list(zls_b)
 ///   > tuple(ls_a, ls_b)
 ///   tuple([1, 2], [3])
 ///
@@ -231,9 +231,9 @@ pub fn split(zlist: ZList(t), n: Int) -> tuple(List(t), ZList(t)) {
 ///
 ///   > let tuple(ls_a, zls_b) =
 ///   >   [1, 2, 3, 4]
-///   >   |> zlist.of_list
-///   >   |> zlist.split_while(fn(x) { x < 3 })
-///   > let ls_b = zlist.to_list(zls_b)
+///   >   |> of_list
+///   >   |> split_while(fn(x) { x < 3 })
+///   > let ls_b = to_list(zls_b)
 ///   > tuple(ls_a, ls_b)
 ///   tuple([1, 2], [3, 4])
 ///
@@ -249,10 +249,10 @@ pub fn split_while(
 ///
 /// # Examples
 ///
-///   > let left = zlist.of_list([1, 2, 3])
-///   > let right = zlist.of_list(["foo", "bar", "baz"])
-///   > zlist.zip(left, right)
-///   > |> zlist.to_list
+///   > let left = of_list([1, 2, 3])
+///   > let right = of_list(["foo", "bar", "baz"])
+///   > zip(left, right)
+///   > |> to_list
 ///   [tuple(1, "foo"), tuple(2, "bar"), tuple(3, "baz")]
 ///
 pub fn zip(left: ZList(a), right: ZList(b)) -> ZList(tuple(a, b)) {
@@ -265,9 +265,9 @@ pub fn zip(left: ZList(a), right: ZList(b)) -> ZList(tuple(a, b)) {
 /// # Examples
 ///
 ///   > [1, 2, 3, 3, 2, 1]
-///   > |> zlist.of_list
-///   > |> zlist.dedup
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> dedup
+///   > |> to_list
 ///   [1, 2, 3, 2, 1]
 ///
 pub fn dedup(zlist: ZList(t)) -> ZList(t) {
@@ -279,8 +279,8 @@ pub fn dedup(zlist: ZList(t)) -> ZList(t) {
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.count
+///   > |> of_list
+///   > |> count
 ///   3
 ///
 pub fn count(zlist: ZList(t)) -> Int {
@@ -292,8 +292,8 @@ pub fn count(zlist: ZList(t)) -> Int {
 /// # Examples
 ///
 ///   > 10
-///   > |> zlist.singleton
-///   > |> zlist.to_list
+///   > |> singleton
+///   > |> to_list
 ///   [10]
 ///
 pub fn singleton(value: t) -> ZList(t) {
@@ -304,8 +304,8 @@ pub fn singleton(value: t) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.new()
-///   > |> zlist.to_list
+///   > new()
+///   > |> to_list
 ///   []
 ///
 pub fn new() -> ZList(t) {
@@ -317,13 +317,13 @@ pub fn new() -> ZList(t) {
 /// # Examples
 ///
 ///   > []
-///   > |> zlist.of_list
-///   > |> zlist.is_empty
+///   > |> of_list
+///   > |> is_empty
 ///   True
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.is_empty
+///   > |> of_list
+///   > |> is_empty
 ///   False
 ///
 pub fn is_empty(zlist: ZList(t)) -> Bool {
@@ -338,9 +338,9 @@ pub fn is_empty(zlist: ZList(t)) -> Bool {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 3, 1)
-///   > |> zlist.cons(0)
-///   > |> zlist.to_list
+///   > range(1, 3, 1)
+///   > |> cons(0)
+///   > |> to_list
 ///   [0, 1, 2, 3]
 ///
 pub fn cons(zlist: ZList(t), first_value) -> ZList(t) {
@@ -353,12 +353,12 @@ pub fn cons(zlist: ZList(t), first_value) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 3, 1)
-///   > |> zlist.head
+///   > range(1, 3, 1)
+///   > |> head
 ///   Ok(1)
 ///
-///   > zlist.new()
-///   > |> zlist.head
+///   > new()
+///   > |> head
 ///   Error(Nil)
 ///
 pub fn head(zlist: ZList(t)) -> Result(t, Nil) {
@@ -376,13 +376,13 @@ pub fn head(zlist: ZList(t)) -> Result(t, Nil) {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 3, 1)
-///   > |> zlist.tail
-///   > |> result.map(zlist.to_list)
+///   > range(1, 3, 1)
+///   > |> tail
+///   > |> result.map(to_list)
 ///   Ok([2, 3])
 ///
-///   > zlist.new()
-///   > |> zlist.tail
+///   > new()
+///   > |> tail
 ///   Error(Nil)
 ///
 pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
@@ -403,11 +403,11 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 3, 1)
-///   > |> zlist.uncons
+///   > range(1, 3, 1)
+///   > |> uncons
 ///   > |> result.map(fn(res) {
 ///   >   let tuple(hd, tl) = res
-///   >   tuple(hd, zlist.to_list(tl))
+///   >   tuple(hd, to_list(tl))
 ///   > })
 ///   Ok(tuple(1, [2, 3]))
 ///
@@ -427,18 +427,18 @@ pub fn uncons(zlist: ZList(t)) -> Result(tuple(t, ZList(t)), Nil) {
 /// # Examples
 ///
 ///   > [2, 4, 6]
-///   > |> zlist.of_list
-///   > |> zlist.all(int.is_even)
+///   > |> of_list
+///   > |> all(int.is_even)
 ///   True
 ///
 ///   > [2, 3, 4]
-///   > |> zlist.of_list
-///   > |> zlist.all(int.is_even)
+///   > |> of_list
+///   > |> all(int.is_even)
 ///   False
 ///
 ///   > []
-///   > |> zlist.of_list
-///   > |> zlist.all(fn(x) { x > 0 })
+///   > |> of_list
+///   > |> all(fn(x) { x > 0 })
 ///   True
 ///
 pub fn all(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
@@ -463,18 +463,18 @@ pub fn all(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
 /// # Examples
 ///
 ///   > [2, 4, 6]
-///   > |> zlist.of_list
-///   > |> zlist.any(int.is_odd)
+///   > |> of_list
+///   > |> any(int.is_odd)
 ///   False
 ///
 ///   > [2, 3, 4]
-///   > |> zlist.of_list
-///   > |> zlist.any(int.is_odd)
+///   > |> of_list
+///   > |> any(int.is_odd)
 ///   True
 ///
 ///   > []
-///   > |> zlist.of_list
-///   > |> zlist.any(fn(x) { x > 0 })
+///   > |> of_list
+///   > |> any(fn(x) { x > 0 })
 ///   False
 ///
 pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
@@ -498,13 +498,13 @@ pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
 /// # Examples
 ///
 ///   > [2, 4, 6]
-///   > |> zlist.of_list
-///   > |> zlist.fetch(1)
+///   > |> of_list
+///   > |> fetch(1)
 ///   Ok(4)
 ///
 ///   > [2, 4, 6]
-///   > |> zlist.of_list
-///   > |> zlist.fetch(4)
+///   > |> of_list
+///   > |> fetch(4)
 ///   Error(Nil)
 ///
 pub fn fetch(zlist: ZList(t), index: Int) -> Result(t, Nil) {
@@ -519,13 +519,13 @@ pub fn fetch(zlist: ZList(t), index: Int) -> Result(t, Nil) {
 /// # Examples
 ///
 ///   > [2, 3, 4]
-///   > |> zlist.of_list
-///   > |> zlist.find(int.is_odd)
+///   > |> of_list
+///   > |> find(int.is_odd)
 ///   Ok(3)
 ///
 ///   > [2, 4, 6]
-///   > |> zlist.of_list
-///   > |> zlist.find(int.is_odd)
+///   > |> of_list
+///   > |> find(int.is_odd)
 ///   Error(Nil)
 ///
 pub fn find(zlist: ZList(t), fun: fn(t) -> Bool) -> Result(t, Nil) {
@@ -543,13 +543,13 @@ pub fn find(zlist: ZList(t), fun: fn(t) -> Bool) -> Result(t, Nil) {
 /// # Examples
 ///
 ///   > [2, 3, 4]
-///   > |> zlist.of_list
-///   > |> zlist.has_member(3)
+///   > |> of_list
+///   > |> has_member(3)
 ///   True
 ///
 ///   > [2, 4, 6]
-///   > |> zlist.of_list
-///   > |> zlist.has_member(8)
+///   > |> of_list
+///   > |> has_member(8)
 ///   False
 ///
 pub fn has_member(zlist: ZList(t), element: t) -> Bool {
@@ -564,9 +564,9 @@ pub fn has_member(zlist: ZList(t), element: t) -> Bool {
 /// # Examples
 ///
 ///   > [1, 2, 3]
-///   > |> zlist.of_list
-///   > |> zlist.reverse
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> reverse
+///   > |> to_list
 ///   [3, 2, 1]
 ///
 pub fn reverse(zlist: ZList(t)) -> ZList(t) {
@@ -578,14 +578,14 @@ pub fn reverse(zlist: ZList(t)) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.range(1, 100, 1)
-///   > |> zlist.slice(5, 10)
-///   > |> zlist.to_list
+///   > range(1, 100, 1)
+///   > |> slice(5, 10)
+///   > |> to_list
 ///   [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 ///
-///   > zlist.range(1, 10, 1)
-///   > |> zlist.slice(5, 100)
-///   > |> zlist.to_list
+///   > range(1, 10, 1)
+///   > |> slice(5, 100)
+///   > |> to_list
 ///   [6, 7, 8, 9, 10]
 ///
 pub fn slice(zlist: ZList(t), start_index: Int, amount: Int) -> ZList(t) {
@@ -598,9 +598,9 @@ pub fn slice(zlist: ZList(t), start_index: Int, amount: Int) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.indices()
-///   > |> zlist.take(5)
-///   > |> zlist.to_list
+///   > indices()
+///   > |> take(5)
+///   > |> to_list
 ///   [0, 1, 2, 3, 4]
 ///
 pub fn indices() -> ZList(Int) {
@@ -612,9 +612,9 @@ pub fn indices() -> ZList(Int) {
 /// # Examples
 ///
 ///   > ["a", "b", "c"]
-///   > |> zlist.of_list
-///   > |> zlist.with_index
-///   > |> zlist.to_list
+///   > |> of_list
+///   > |> with_index
+///   > |> to_list
 ///   [tuple("a", 0), tuple("b", 1), tuple("c", 2)]
 ///
 pub fn with_index(zlist: ZList(t)) -> ZList(tuple(t, Int)) {
