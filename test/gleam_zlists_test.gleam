@@ -434,3 +434,25 @@ pub fn any_test() {
   |> zlist.any(fn(x) { x < 0 })
   |> should.equal(False)
 }
+
+pub fn at_test() {
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.at(0)
+  |> should.equal(Ok(2))
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.at(2)
+  |> should.equal(Ok(6))
+
+  [2, 4, 6]
+  |> zlist.of_list
+  |> zlist.at(3)
+  |> should.equal(Error(Nil))
+
+  []
+  |> zlist.of_list
+  |> zlist.at(0)
+  |> should.equal(Error(Nil))
+}

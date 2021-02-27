@@ -491,3 +491,23 @@ pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
   |> is_empty
   |> bool.negate
 }
+
+/// Finds the element at the given (zero-based) `index`, if there is one.
+///
+/// # Examples
+///
+///   > [2, 4, 6]
+///   > |> zlist.of_list
+///   > |> zlist.at(1)
+///   Ok(4)
+///
+///   > [2, 4, 6]
+///   > |> zlist.of_list
+///   > |> zlist.at(4)
+///   Error(Nil)
+///
+pub fn at(zlist: ZList(t), index: Int) -> Result(t, Nil) {
+  zlist
+  |> drop(index)
+  |> head
+}
