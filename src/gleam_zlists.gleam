@@ -572,3 +572,51 @@ pub fn has_member(zlist: ZList(t), element: t) -> Bool {
 pub fn reverse(zlist: ZList(t)) -> ZList(t) {
   reduce(zlist, new(), fn(x, acc) { cons(acc, x) })
 }
+
+/// Returns a subset `ZList` of the given `zlist`, from `start_index` (zero-based) with `amount` number of elements if available.
+/// Given an `zlist`, it drops elements right before element `start_index`, then takes `amount` of elements, returning as many elements as possible if there are not enough elements.
+///
+/// # Examples
+///
+///   > zlist.range(1, 100, 1)
+///   > |> zlist.slice(5, 10)
+///   > |> zlist.to_list
+///   [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+///
+///   > zlist.range(1, 10, 1)
+///   > |> zlist.slice(5, 100)
+///   > |> zlist.to_list
+///   [6, 7, 8, 9, 10]
+///
+pub fn slice(zlist: ZList(t), start_index: Int, amount: Int) -> ZList(t) {
+  zlist
+  |> drop(start_index)
+  |> take(amount)
+}
+
+/// Returns an infinite `ZList` that contains the non-negative integers (sorted).
+///
+/// # Examples
+///
+///   > zlist.indices()
+///   > |> zlist.take(5)
+///   > |> zlist.to_list
+///   [0, 1, 2, 3, 4]
+///
+pub fn indices() -> ZList(Int) {
+  iterate(0, fn(x) { x + 1 })
+}
+
+/// Returns the `zlist` with each element wrapped in a tuple alongside its index.
+///
+/// # Examples
+///
+///   > ["a", "b", "c"]
+///   > |> zlist.of_list
+///   > |> zlist.with_index
+///   > |> zlist.to_list
+///   [tuple("a", 0), tuple("b", 1), tuple("c", 2)]
+///
+pub fn with_index(zlist: ZList(t)) -> ZList(tuple(t, Int)) {
+  zip(zlist, indices())
+}

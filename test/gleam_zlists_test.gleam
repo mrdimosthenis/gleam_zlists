@@ -522,3 +522,56 @@ pub fn reverse_test() {
   |> zlist.to_list
   |> should.equal([])
 }
+
+pub fn slice_test() {
+  zlist.range(1, 100, 1)
+  |> zlist.slice(5, 10)
+  |> zlist.to_list
+  |> should.equal([6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+
+  zlist.range(1, 10, 1)
+  |> zlist.slice(5, 100)
+  |> zlist.to_list
+  |> should.equal([6, 7, 8, 9, 10])
+
+  zlist.range(1, 10, 1)
+  |> zlist.slice(5, 0)
+  |> zlist.to_list
+  |> should.equal([])
+
+  zlist.range(1, 10, 1)
+  |> zlist.slice(10, 0)
+  |> zlist.to_list
+  |> should.equal([])
+
+  zlist.new()
+  |> zlist.slice(10, 3)
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn indices_test() {
+  zlist.indices()
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2])
+
+  zlist.indices()
+  |> zlist.take(5)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2, 3, 4])
+}
+
+pub fn with_index_test() {
+  ["a", "b", "c"]
+  |> zlist.of_list
+  |> zlist.with_index
+  |> zlist.to_list
+  |> should.equal([tuple("a", 0), tuple("b", 1), tuple("c", 2)])
+
+  []
+  |> zlist.of_list
+  |> zlist.with_index
+  |> zlist.to_list
+  |> should.equal([])
+}
