@@ -558,3 +558,17 @@ pub fn has_member(zlist: ZList(t), element: t) -> Bool {
     Error(Nil) -> False
   }
 }
+
+/// Returns a `ZList` of the elements in `zlist` in reverse order.
+///
+/// # Examples
+///
+///   > [1, 2, 3]
+///   > |> zlist.of_list
+///   > |> zlist.reverse
+///   > |> zlist.to_list
+///   [3, 2, 1]
+///
+pub fn reverse(zlist: ZList(t)) -> ZList(t) {
+  reduce(zlist, new(), fn(x, acc) { cons(acc, x) })
+}

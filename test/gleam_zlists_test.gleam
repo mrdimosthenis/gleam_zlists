@@ -1,5 +1,6 @@
 import gleam/should
 import gleam/int
+import gleam/string
 import gleam/result
 import gleam_zlists as zlist
 
@@ -64,6 +65,18 @@ pub fn reduce_test() {
   |> zlist.of_list
   |> zlist.reduce(0, fn(x, acc) { x + acc })
   |> should.equal(6)
+
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.reduce(
+    "0",
+    fn(x, acc) {
+      x
+      |> int.to_string
+      |> string.append(acc)
+    },
+  )
+  |> should.equal("3210")
 }
 
 pub fn map_test() {
@@ -494,4 +507,18 @@ pub fn has_member_test() {
   |> zlist.of_list
   |> zlist.has_member(1)
   |> should.equal(False)
+}
+
+pub fn reverse_test() {
+  [1, 2, 3]
+  |> zlist.of_list
+  |> zlist.reverse
+  |> zlist.to_list
+  |> should.equal([3, 2, 1])
+
+  []
+  |> zlist.of_list
+  |> zlist.reverse
+  |> zlist.to_list
+  |> should.equal([])
 }
