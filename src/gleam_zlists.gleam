@@ -3,7 +3,7 @@
 //// For more information see [this website](https://github.com/mrdimosthenis/gleam_zlists).
 
 import gleam/bool
-import erl/interface as api
+import gleam_zlists/interface as api
 
 /// A type for representing lazy lists.
 pub type ZList(t) =

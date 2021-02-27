@@ -1,22 +1,22 @@
-import erl/zlist
+import gleam_zlists/interop
 
 pub type ZList(t) =
-  zlist.ZList(t)
+  interop.ZList(t)
 
 pub fn new_1(ls: List(t), f: fn() -> List(t)) -> ZList(t) {
-  zlist.new_1(ls, f)
+  interop.new_1(ls, f)
 }
 
 pub fn new_2(ls: ZList(t), f: fn() -> ZList(t)) -> ZList(t) {
-  zlist.new_2(ls, f)
+  interop.new_2(ls, f)
 }
 
 pub fn generate(zl: ZList(t), f: fn(t) -> ZList(t1)) -> ZList(t1) {
-  zlist.generate(zl, f)
+  interop.generate(zl, f)
 }
 
 pub fn recurrent_2(elem: t, f: fn(t) -> t) -> ZList(t) {
-  zlist.recurrent_2(elem, f)
+  interop.recurrent_2(elem, f)
 }
 
 pub fn recurrent_3(
@@ -24,89 +24,89 @@ pub fn recurrent_3(
   elem_1: t1,
   f: fn(t, t1) -> tuple(t, t1),
 ) -> ZList(t) {
-  zlist.recurrent_3(elem, elem_1, f)
+  interop.recurrent_3(elem, elem_1, f)
 }
 
 pub fn foreach(f: fn(t) -> any, zl: ZList(t)) -> Nil {
-  zlist.foreach(f, zl)
+  interop.foreach(f, zl)
 }
 
 pub fn foldl(f: fn(t, acc) -> acc, accum: acc, zl: ZList(t)) -> acc {
-  zlist.foldl(f, accum, zl)
+  interop.foldl(f, accum, zl)
 }
 
 pub fn map(f: fn(a) -> b, zl: ZList(a)) -> ZList(b) {
-  zlist.map(f, zl)
+  interop.map(f, zl)
 }
 
 pub fn seq(from: Int, to: Int, incr: Int) -> ZList(Int) {
-  zlist.seq(from, to, incr)
+  interop.seq(from, to, incr)
 }
 
 pub fn dropwhile(pred: fn(t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.dropwhile(pred, zl)
+  interop.dropwhile(pred, zl)
 }
 
 pub fn drop(n: Int, zl: ZList(t)) -> ZList(t) {
-  zlist.drop(n, zl)
+  interop.drop(n, zl)
 }
 
 pub fn takewhile(pred: fn(t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.takewhile(pred, zl)
+  interop.takewhile(pred, zl)
 }
 
 pub fn take(n: Int, zl: ZList(t)) -> ZList(t) {
-  zlist.take(n, zl)
+  interop.take(n, zl)
 }
 
 pub fn filter(pred: fn(t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.filter(pred, zl)
+  interop.filter(pred, zl)
 }
 
 pub fn expand(zl: ZList(t)) -> List(t) {
-  zlist.expand(zl)
+  interop.expand(zl)
 }
 
 pub fn append(zlsts: ZList(ZList(t))) -> ZList(t) {
-  zlist.append(zlsts)
+  interop.append(zlsts)
 }
 
 pub fn scroll(n: Int, zl: ZList(t)) -> tuple(List(t), ZList(t)) {
-  zlist.scroll(n, zl)
+  interop.scroll(n, zl)
 }
 
 pub fn merge(zl_1: ZList(t), zl_2: ZList(t)) -> ZList(t) {
-  zlist.merge(zl_1, zl_2)
+  interop.merge(zl_1, zl_2)
 }
 
 pub fn splitwith(pred: fn(t) -> Bool, zl: ZList(t)) -> tuple(List(t), ZList(t)) {
-  zlist.splitwith(pred, zl)
+  interop.splitwith(pred, zl)
 }
 
 pub fn cartesian(zl_1: ZList(t), zl_2: ZList(t)) -> ZList(t) {
-  zlist.cartesian(zl_1, zl_2)
+  interop.cartesian(zl_1, zl_2)
 }
 
 pub fn zip(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(tuple(a, b)) {
-  zlist.zip(zl_1, zl_2)
+  interop.zip(zl_1, zl_2)
 }
 
 pub fn ziph(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(tuple(a, b)) {
-  zlist.ziph(zl_1, zl_2)
+  interop.ziph(zl_1, zl_2)
 }
 
 pub fn unique_1(zl: ZList(t)) -> ZList(t) {
-  zlist.unique_1(zl)
+  interop.unique_1(zl)
 }
 
 pub fn unique_2(pred: fn(t, t) -> Bool, zl: ZList(t)) -> ZList(t) {
-  zlist.unique_2(pred, zl)
+  interop.unique_2(pred, zl)
 }
 
 pub fn count(zl: ZList(t)) -> Int {
-  zlist.count(zl)
+  interop.count(zl)
 }
 
 pub fn print(zl: ZList(t)) -> Nil {
-  zlist.print(zl)
+  interop.print(zl)
 }
