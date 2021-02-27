@@ -1,4 +1,5 @@
 name = "gleam_zlists"
+version = "0.0.2"
 
 # [docs]
 # links = [
