@@ -397,7 +397,7 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
   }
 }
 
-/// Returns the tuple of the head value and the tail of the list. If the `zlist` is empty, `Error(Nil)` is returned.
+/// Returns the tuple of the first value and the tail of the `zlist`. If the `zlist` is empty, `Error(Nil)` is returned.
 ///
 /// # Examples
 ///
