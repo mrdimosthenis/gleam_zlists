@@ -492,21 +492,22 @@ pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
   |> bool.negate
 }
 
-/// Finds the element at the given (zero-based) `index`, if there is one.
+/// Finds the element at the given `index` (zero-based).
+/// Returns `Ok(element)` if found, otherwise `Error(Nil)`.
 ///
 /// # Examples
 ///
 ///   > [2, 4, 6]
 ///   > |> zlist.of_list
-///   > |> zlist.at(1)
+///   > |> zlist.fetch(1)
 ///   Ok(4)
 ///
 ///   > [2, 4, 6]
 ///   > |> zlist.of_list
-///   > |> zlist.at(4)
+///   > |> zlist.fetch(4)
 ///   Error(Nil)
 ///
-pub fn at(zlist: ZList(t), index: Int) -> Result(t, Nil) {
+pub fn fetch(zlist: ZList(t), index: Int) -> Result(t, Nil) {
   zlist
   |> drop(index)
   |> head

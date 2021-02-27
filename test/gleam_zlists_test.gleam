@@ -435,24 +435,24 @@ pub fn any_test() {
   |> should.equal(False)
 }
 
-pub fn at_test() {
+pub fn fetch_test() {
   [2, 4, 6]
   |> zlist.of_list
-  |> zlist.at(0)
+  |> zlist.fetch(0)
   |> should.equal(Ok(2))
 
   [2, 4, 6]
   |> zlist.of_list
-  |> zlist.at(2)
+  |> zlist.fetch(2)
   |> should.equal(Ok(6))
 
   [2, 4, 6]
   |> zlist.of_list
-  |> zlist.at(3)
+  |> zlist.fetch(3)
   |> should.equal(Error(Nil))
 
   []
   |> zlist.of_list
-  |> zlist.at(0)
+  |> zlist.fetch(0)
   |> should.equal(Error(Nil))
 }
