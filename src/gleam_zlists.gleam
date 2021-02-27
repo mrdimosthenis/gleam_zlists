@@ -302,11 +302,11 @@ pub fn singleton(value: t) -> ZList(t) {
 ///
 /// # Examples
 ///
-///   > zlist.empty()
+///   > zlist.new()
 ///   > |> zlist.to_list
 ///   []
 ///
-pub fn empty() -> ZList(t) {
+pub fn new() -> ZList(t) {
   of_list([])
 }
 
@@ -351,7 +351,7 @@ pub fn cons(zlist: ZList(t), first_value) -> ZList(t) {
 ///   > |> zlist.head
 ///   Ok(1)
 ///
-///   > zlist.empty()
+///   > zlist.new()
 ///   > |> zlist.head
 ///   Error(Nil)
 ///
@@ -375,7 +375,7 @@ pub fn head(zlist: ZList(t)) -> Result(t, Nil) {
 ///   > |> result.map(zlist.to_list)
 ///   Ok([2, 3])
 ///
-///   > zlist.empty()
+///   > zlist.new()
 ///   > |> zlist.tail
 ///   Error(Nil)
 ///

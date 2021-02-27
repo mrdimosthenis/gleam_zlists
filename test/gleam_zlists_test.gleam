@@ -260,8 +260,8 @@ pub fn singleton_test() {
   |> should.equal([10])
 }
 
-pub fn empty_test() {
-  zlist.empty()
+pub fn new_test() {
+  zlist.new()
   |> zlist.to_list
   |> should.equal([])
 }
@@ -301,7 +301,7 @@ pub fn head_test() {
   |> zlist.head
   |> should.equal(Ok(10))
 
-  zlist.empty()
+  zlist.new()
   |> zlist.head
   |> should.equal(Error(Nil))
 }
@@ -318,7 +318,7 @@ pub fn tail_test() {
   |> result.map(zlist.to_list)
   |> should.equal(Ok([]))
 
-  zlist.empty()
+  zlist.new()
   |> zlist.tail
   |> should.equal(Error(Nil))
 }
@@ -341,7 +341,7 @@ pub fn uncons_test() {
   })
   |> should.equal(Ok(tuple(10, [])))
 
-  zlist.empty()
+  zlist.new()
   |> zlist.uncons
   |> should.equal(Error(Nil))
 }
