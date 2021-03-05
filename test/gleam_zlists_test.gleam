@@ -595,3 +595,19 @@ pub fn unzip_test() {
   |> zlist.unzip
   |> should.equal(tuple(zlist.new(), zlist.new()))
 }
+
+pub fn sum_test() {
+  [0.0, 1.0, 2.0, 3.0, 4.0]
+  |> zlist.of_list
+  |> zlist.sum
+  |> should.equal(10.0)
+
+  4.0
+  |> zlist.singleton
+  |> zlist.sum
+  |> should.equal(4.0)
+
+  zlist.new()
+  |> zlist.sum
+  |> should.equal(0.0)
+}

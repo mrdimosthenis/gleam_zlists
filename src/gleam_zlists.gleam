@@ -739,3 +739,18 @@ pub fn unzip(zlist: ZList(tuple(a, b))) -> tuple(ZList(a), ZList(b)) {
     },
   )
 }
+
+/// Returns the sum of all elements. The elements should be `Float`s.
+///
+///  ## Examples
+///
+/// ```
+/// [0.0, 1.0, 2.0, 3.0, 4.0]
+/// |> of_list
+/// |> sum
+/// 10.0
+/// ```
+///
+pub fn sum(zlist: ZList(Float)) -> Float {
+  reduce(zlist, 0.0, fn(x, acc) { x +. acc })
+}
