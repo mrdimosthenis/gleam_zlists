@@ -2,6 +2,7 @@ import gleam/should
 import gleam/int
 import gleam/string
 import gleam/result
+import gleam/iterator
 import gleam_zlists as zlist
 
 pub fn append_test() {
@@ -653,3 +654,24 @@ pub fn min_test() {
   |> zlist.min
   |> should.equal(Error(Nil))
 }
+
+pub fn to_iterator_test() {
+  zlist.indices()
+  |> zlist.to_iterator
+  |> iterator.take(5)
+  |> should.equal([0, 1, 2, 3, 4])
+
+  zlist.new()
+  |> zlist.to_iterator
+  |> iterator.to_list
+  |> should.equal([])
+}
+//pub fn of_iterator_test() {
+//  [1, 2]
+//  |> iterator.from_list
+//  |> iterator.cycle
+//  |> zlist.of_iterator
+//  |> zlist.take(5)
+//  |> zlist.to_list
+//  |> should.equal([])
+//}

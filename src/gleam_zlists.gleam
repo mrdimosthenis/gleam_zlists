@@ -4,6 +4,7 @@
 
 import gleam/bool
 import gleam/result
+import gleam/iterator.{Done, Iterator, Next}
 import gleam_zlists/interface as api
 
 /// A type for representing lazy lists.
@@ -816,4 +817,25 @@ pub fn min(zlist: ZList(Float)) -> Result(Float, Nil) {
       },
     )
   })
+}
+
+/// Converts the `zlist` into an `Iterator`.
+///
+///  ## Examples
+///
+/// ```
+/// indices()
+/// |> to_iterator
+/// |> iterator.take(5)
+/// [0, 1, 2, 3, 4]
+/// ```
+///
+pub fn to_iterator(zlist: ZList(t)) -> Iterator(t) {
+  let yield = fn(acc) {
+    case uncons(acc) {
+      Error(Nil) -> Done
+      Ok(tuple(hd, tl)) -> Next(hd, tl)
+    }
+  }
+  iterator.unfold(zlist, yield)
 }
