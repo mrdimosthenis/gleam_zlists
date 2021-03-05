@@ -611,3 +611,45 @@ pub fn sum_test() {
   |> zlist.sum
   |> should.equal(0.0)
 }
+
+pub fn max_test() {
+  [1.0, 3.0, 0.0, 2.0]
+  |> zlist.of_list
+  |> zlist.max
+  |> should.equal(Ok(3.0))
+
+  [10.0, -2.0, 3.0]
+  |> zlist.of_list
+  |> zlist.max
+  |> should.equal(Ok(10.0))
+
+  -2.0
+  |> zlist.singleton
+  |> zlist.max
+  |> should.equal(Ok(-2.0))
+
+  zlist.new()
+  |> zlist.max
+  |> should.equal(Error(Nil))
+}
+
+pub fn min_test() {
+  [1.0, 3.0, 0.0, 2.0]
+  |> zlist.of_list
+  |> zlist.min
+  |> should.equal(Ok(0.0))
+
+  [10.0, -2.0, 3.0]
+  |> zlist.of_list
+  |> zlist.min
+  |> should.equal(Ok(-2.0))
+
+  -2.0
+  |> zlist.singleton
+  |> zlist.min
+  |> should.equal(Ok(-2.0))
+
+  zlist.new()
+  |> zlist.min
+  |> should.equal(Error(Nil))
+}

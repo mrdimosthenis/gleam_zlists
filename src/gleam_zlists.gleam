@@ -3,6 +3,7 @@
 //// For more information see [this website](https://github.com/mrdimosthenis/gleam_zlists).
 
 import gleam/bool
+import gleam/result
 import gleam_zlists/interface as api
 
 /// A type for representing lazy lists.
@@ -740,7 +741,7 @@ pub fn unzip(zlist: ZList(tuple(a, b))) -> tuple(ZList(a), ZList(b)) {
   )
 }
 
-/// Returns the sum of all elements. The elements should be `Float`s.
+/// Returns the sum of all elements. The elements should be `Float` numbers.
 ///
 ///  ## Examples
 ///
@@ -753,4 +754,66 @@ pub fn unzip(zlist: ZList(tuple(a, b))) -> tuple(ZList(a), ZList(b)) {
 ///
 pub fn sum(zlist: ZList(Float)) -> Float {
   reduce(zlist, 0.0, fn(x, acc) { x +. acc })
+}
+
+/// Returns the maximum element in the `zlist`.
+/// If the `zlist` is empty, `Error(Nil)` is returned.
+/// The elements should be `Float` numbers.
+///
+///  ## Examples
+///
+/// ```
+/// [1.0, 3.0, 0.0, 2.0]
+/// |> of_list
+/// |> max
+/// Ok(3.0)
+/// ```
+///
+pub fn max(zlist: ZList(Float)) -> Result(Float, Nil) {
+  zlist
+  |> uncons
+  |> result.map(fn(x) {
+    let tuple(hd, tl) = x
+    reduce(
+      tl,
+      hd,
+      fn(x, acc) {
+        case x >. acc {
+          True -> x
+          False -> acc
+        }
+      },
+    )
+  })
+}
+
+/// Returns the minimum element in the `zlist`.
+/// If the `zlist` is empty, `Error(Nil)` is returned.
+/// The elements should be `Float` numbers.
+///
+///  ## Examples
+///
+/// ```
+/// [1.0, 3.0, 0.0, 2.0]
+/// |> of_list
+/// |> min
+/// Ok(0.0)
+/// ```
+///
+pub fn min(zlist: ZList(Float)) -> Result(Float, Nil) {
+  zlist
+  |> uncons
+  |> result.map(fn(x) {
+    let tuple(hd, tl) = x
+    reduce(
+      tl,
+      hd,
+      fn(x, acc) {
+        case x <. acc {
+          True -> x
+          False -> acc
+        }
+      },
+    )
+  })
 }
