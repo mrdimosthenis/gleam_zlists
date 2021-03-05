@@ -575,3 +575,23 @@ pub fn with_index_test() {
   |> zlist.to_list
   |> should.equal([])
 }
+
+pub fn unzip_test() {
+  let tuple(xs, ys) =
+    [tuple("a", 1), tuple("b", 2), tuple("c", 3)]
+    |> zlist.of_list
+    |> zlist.unzip
+  tuple(zlist.to_list(xs), zlist.to_list(ys))
+  |> should.equal(tuple(["a", "b", "c"], [1, 2, 3]))
+
+  let tuple(xs, ys) =
+    [tuple("c", 3)]
+    |> zlist.of_list
+    |> zlist.unzip
+  tuple(zlist.to_list(xs), zlist.to_list(ys))
+  |> should.equal(tuple(["c"], [3]))
+
+  zlist.new()
+  |> zlist.unzip
+  |> should.equal(tuple(zlist.new(), zlist.new()))
+}

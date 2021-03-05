@@ -712,3 +712,30 @@ pub fn indices() -> ZList(Int) {
 pub fn with_index(zlist: ZList(t)) -> ZList(tuple(t, Int)) {
   zip(zlist, indices())
 }
+
+/// It takes a `ZList` with elements being two-element `tuple`s and returns a `tuple` with two `ZList`s.
+/// Each `ZList` is formed by the first and second element of each tuple, respectively.
+///
+///  ## Examples
+///
+/// ```
+/// let tuple(xs, ys) =
+///   [tuple("a", 1), tuple("b", 2), tuple("c", 3)]
+///   |> of_list
+///   |> unzip
+/// tuple(to_list(xs), to_list(ys))
+/// tuple(["a", "b", "c"], [1, 2, 3])
+/// ```
+///
+pub fn unzip(zlist: ZList(tuple(a, b))) -> tuple(ZList(a), ZList(b)) {
+  zlist
+  |> reverse
+  |> reduce(
+    tuple(new(), new()),
+    fn(it, acc) {
+      let tuple(x, y) = it
+      let tuple(acc_xs, acc_ys) = acc
+      tuple(cons(acc_xs, x), cons(acc_ys, y))
+    },
+  )
+}
