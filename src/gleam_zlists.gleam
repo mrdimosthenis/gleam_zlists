@@ -839,3 +839,54 @@ pub fn to_iterator(zlist: ZList(t)) -> Iterator(t) {
   }
   iterator.unfold(zlist, yield)
 }
+
+fn recurrent(
+  x0: t,
+  s0: t1,
+  rec_fun: fn(t, t1) -> Result(tuple(t, t1), Nil),
+) -> ZList(t) {
+  api.new_2(
+    singleton(x0),
+    fn() {
+      case rec_fun(x0, s0) {
+        Ok(tuple(x1, s1)) -> recurrent(x1, s1, rec_fun)
+        Error(Nil) -> new()
+      }
+    },
+  )
+}
+
+/// Converts the `iter` into a `ZList`.
+///
+///  ## Examples
+///
+/// ```
+/// [1, 2]
+/// |> iterator.from_list
+/// |> iterator.cycle
+/// |> of_iterator
+/// |> take(5)
+/// |> to_list
+/// [1, 2, 1, 2, 1]
+/// ```
+///
+/// ```
+/// iterator.unfold(0, fn(n) { Next(n, n + 1) })
+/// |> of_iterator
+/// |> take(3)
+/// |> to_list
+/// [0, 1, 2]
+/// ```
+///
+pub fn of_iterator(iter: Iterator(t)) -> ZList(t) {
+  let rec_fun = fn(_, t1) {
+    case iterator.step(t1) {
+      Next(e, es) -> Ok(tuple(e, es))
+      Done -> Error(Nil)
+    }
+  }
+  case iterator.step(iter) {
+    Done -> new()
+    Next(e, es) -> recurrent(e, es, rec_fun)
+  }
+}

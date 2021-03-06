@@ -2,7 +2,7 @@ import gleam/should
 import gleam/int
 import gleam/string
 import gleam/result
-import gleam/iterator
+import gleam/iterator.{Done, Next}
 import gleam_zlists as zlist
 
 pub fn append_test() {
@@ -666,12 +666,83 @@ pub fn to_iterator_test() {
   |> iterator.to_list
   |> should.equal([])
 }
-//pub fn of_iterator_test() {
-//  [1, 2]
-//  |> iterator.from_list
-//  |> iterator.cycle
-//  |> zlist.of_iterator
-//  |> zlist.take(5)
-//  |> zlist.to_list
-//  |> should.equal([])
-//}
+
+pub fn of_iterator_test() {
+  [1, 2]
+  |> iterator.from_list
+  |> iterator.cycle
+  |> zlist.of_iterator
+  |> zlist.take(5)
+  |> zlist.to_list
+  |> should.equal([1, 2, 1, 2, 1])
+
+  []
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([])
+
+  [1]
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([1])
+
+  [1, 2]
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([1, 2])
+
+  [1, 2, 3]
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([1, 2, 3])
+
+  iterator.unfold(
+    100,
+    fn(n) {
+      case n {
+        0 -> Done
+        n -> Next(element: n, accumulator: n - 1)
+      }
+    },
+  )
+  |> zlist.of_iterator
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([100, 99, 98])
+
+  let all_integers_it = iterator.unfold(0, fn(n) { Next(n, n + 1) })
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(2)
+  |> zlist.to_list
+  |> should.equal([0, 1])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(1)
+  |> zlist.to_list
+  |> should.equal([0])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(0)
+  |> zlist.to_list
+  |> should.equal([])
+}
