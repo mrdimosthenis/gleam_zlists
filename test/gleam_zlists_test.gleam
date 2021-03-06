@@ -2,6 +2,7 @@ import gleam/should
 import gleam/int
 import gleam/string
 import gleam/result
+import gleam/iterator.{Done, Next}
 import gleam_zlists as zlist
 
 pub fn append_test() {
@@ -572,6 +573,176 @@ pub fn with_index_test() {
   []
   |> zlist.of_list
   |> zlist.with_index
+  |> zlist.to_list
+  |> should.equal([])
+}
+
+pub fn unzip_test() {
+  let tuple(xs, ys) =
+    [tuple("a", 1), tuple("b", 2), tuple("c", 3)]
+    |> zlist.of_list
+    |> zlist.unzip
+  tuple(zlist.to_list(xs), zlist.to_list(ys))
+  |> should.equal(tuple(["a", "b", "c"], [1, 2, 3]))
+
+  let tuple(xs, ys) =
+    [tuple("c", 3)]
+    |> zlist.of_list
+    |> zlist.unzip
+  tuple(zlist.to_list(xs), zlist.to_list(ys))
+  |> should.equal(tuple(["c"], [3]))
+
+  zlist.new()
+  |> zlist.unzip
+  |> should.equal(tuple(zlist.new(), zlist.new()))
+}
+
+pub fn sum_test() {
+  [0.0, 1.0, 2.0, 3.0, 4.0]
+  |> zlist.of_list
+  |> zlist.sum
+  |> should.equal(10.0)
+
+  4.0
+  |> zlist.singleton
+  |> zlist.sum
+  |> should.equal(4.0)
+
+  zlist.new()
+  |> zlist.sum
+  |> should.equal(0.0)
+}
+
+pub fn max_test() {
+  [1.0, 3.0, 0.0, 2.0]
+  |> zlist.of_list
+  |> zlist.max
+  |> should.equal(Ok(3.0))
+
+  [10.0, -2.0, 3.0]
+  |> zlist.of_list
+  |> zlist.max
+  |> should.equal(Ok(10.0))
+
+  -2.0
+  |> zlist.singleton
+  |> zlist.max
+  |> should.equal(Ok(-2.0))
+
+  zlist.new()
+  |> zlist.max
+  |> should.equal(Error(Nil))
+}
+
+pub fn min_test() {
+  [1.0, 3.0, 0.0, 2.0]
+  |> zlist.of_list
+  |> zlist.min
+  |> should.equal(Ok(0.0))
+
+  [10.0, -2.0, 3.0]
+  |> zlist.of_list
+  |> zlist.min
+  |> should.equal(Ok(-2.0))
+
+  -2.0
+  |> zlist.singleton
+  |> zlist.min
+  |> should.equal(Ok(-2.0))
+
+  zlist.new()
+  |> zlist.min
+  |> should.equal(Error(Nil))
+}
+
+pub fn to_iterator_test() {
+  zlist.indices()
+  |> zlist.to_iterator
+  |> iterator.take(5)
+  |> should.equal([0, 1, 2, 3, 4])
+
+  zlist.new()
+  |> zlist.to_iterator
+  |> iterator.to_list
+  |> should.equal([])
+}
+
+pub fn of_iterator_test() {
+  [1, 2]
+  |> iterator.from_list
+  |> iterator.cycle
+  |> zlist.of_iterator
+  |> zlist.take(5)
+  |> zlist.to_list
+  |> should.equal([1, 2, 1, 2, 1])
+
+  []
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([])
+
+  [1]
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([1])
+
+  [1, 2]
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([1, 2])
+
+  [1, 2, 3]
+  |> iterator.from_list
+  |> zlist.of_iterator
+  |> zlist.to_list
+  |> should.equal([1, 2, 3])
+
+  iterator.unfold(
+    100,
+    fn(n) {
+      case n {
+        0 -> Done
+        n -> Next(element: n, accumulator: n - 1)
+      }
+    },
+  )
+  |> zlist.of_iterator
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([100, 99, 98])
+
+  let all_integers_it = iterator.unfold(0, fn(n) { Next(n, n + 1) })
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(3)
+  |> zlist.to_list
+  |> should.equal([0, 1, 2])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(2)
+  |> zlist.to_list
+  |> should.equal([0, 1])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(1)
+  |> zlist.to_list
+  |> should.equal([0])
+
+  all_integers_it
+  |> zlist.of_iterator
+  |> zlist.take(0)
   |> zlist.to_list
   |> should.equal([])
 }

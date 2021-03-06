@@ -3,6 +3,8 @@
 //// For more information see [this website](https://github.com/mrdimosthenis/gleam_zlists).
 
 import gleam/bool
+import gleam/result
+import gleam/iterator.{Done, Iterator, Next}
 import gleam_zlists/interface as api
 
 /// A type for representing lazy lists.
@@ -711,4 +713,180 @@ pub fn indices() -> ZList(Int) {
 ///
 pub fn with_index(zlist: ZList(t)) -> ZList(tuple(t, Int)) {
   zip(zlist, indices())
+}
+
+/// It takes a `ZList` with elements being two-element `tuple`s and returns a `tuple` with two `ZList`s.
+/// Each `ZList` is formed by the first and second element of each tuple, respectively.
+///
+///  ## Examples
+///
+/// ```
+/// let tuple(xs, ys) =
+///   [tuple("a", 1), tuple("b", 2), tuple("c", 3)]
+///   |> of_list
+///   |> unzip
+/// tuple(to_list(xs), to_list(ys))
+/// tuple(["a", "b", "c"], [1, 2, 3])
+/// ```
+///
+pub fn unzip(zlist: ZList(tuple(a, b))) -> tuple(ZList(a), ZList(b)) {
+  zlist
+  |> reverse
+  |> reduce(
+    tuple(new(), new()),
+    fn(it, acc) {
+      let tuple(x, y) = it
+      let tuple(acc_xs, acc_ys) = acc
+      tuple(cons(acc_xs, x), cons(acc_ys, y))
+    },
+  )
+}
+
+/// Returns the sum of all elements. The elements should be `Float` numbers.
+///
+///  ## Examples
+///
+/// ```
+/// [0.0, 1.0, 2.0, 3.0, 4.0]
+/// |> of_list
+/// |> sum
+/// 10.0
+/// ```
+///
+pub fn sum(zlist: ZList(Float)) -> Float {
+  reduce(zlist, 0.0, fn(x, acc) { x +. acc })
+}
+
+/// Returns the maximum element in the `zlist`.
+/// If the `zlist` is empty, `Error(Nil)` is returned.
+/// The elements should be `Float` numbers.
+///
+///  ## Examples
+///
+/// ```
+/// [1.0, 3.0, 0.0, 2.0]
+/// |> of_list
+/// |> max
+/// Ok(3.0)
+/// ```
+///
+pub fn max(zlist: ZList(Float)) -> Result(Float, Nil) {
+  zlist
+  |> uncons
+  |> result.map(fn(x) {
+    let tuple(hd, tl) = x
+    reduce(
+      tl,
+      hd,
+      fn(x, acc) {
+        case x >. acc {
+          True -> x
+          False -> acc
+        }
+      },
+    )
+  })
+}
+
+/// Returns the minimum element in the `zlist`.
+/// If the `zlist` is empty, `Error(Nil)` is returned.
+/// The elements should be `Float` numbers.
+///
+///  ## Examples
+///
+/// ```
+/// [1.0, 3.0, 0.0, 2.0]
+/// |> of_list
+/// |> min
+/// Ok(0.0)
+/// ```
+///
+pub fn min(zlist: ZList(Float)) -> Result(Float, Nil) {
+  zlist
+  |> uncons
+  |> result.map(fn(x) {
+    let tuple(hd, tl) = x
+    reduce(
+      tl,
+      hd,
+      fn(x, acc) {
+        case x <. acc {
+          True -> x
+          False -> acc
+        }
+      },
+    )
+  })
+}
+
+/// Converts the `zlist` into an `Iterator`.
+///
+///  ## Examples
+///
+/// ```
+/// indices()
+/// |> to_iterator
+/// |> iterator.take(5)
+/// [0, 1, 2, 3, 4]
+/// ```
+///
+pub fn to_iterator(zlist: ZList(t)) -> Iterator(t) {
+  let yield = fn(acc) {
+    case uncons(acc) {
+      Error(Nil) -> Done
+      Ok(tuple(hd, tl)) -> Next(hd, tl)
+    }
+  }
+  iterator.unfold(zlist, yield)
+}
+
+fn recurrent(
+  x0: t,
+  s0: t1,
+  rec_fun: fn(t, t1) -> Result(tuple(t, t1), Nil),
+) -> ZList(t) {
+  api.new_2(
+    singleton(x0),
+    fn() {
+      case rec_fun(x0, s0) {
+        Ok(tuple(x1, s1)) -> recurrent(x1, s1, rec_fun)
+        Error(Nil) -> new()
+      }
+    },
+  )
+}
+
+/// Converts the `iter` into a `ZList`.
+///
+///  ## Examples
+///
+/// ```
+/// [1, 2]
+/// |> iterator.from_list
+/// |> iterator.cycle
+/// |> of_iterator
+/// |> take(5)
+/// |> to_list
+/// [1, 2, 1, 2, 1]
+/// ```
+///
+/// ```
+/// iterator.unfold(0, fn(n) { Next(n, n + 1) })
+/// |> of_iterator
+/// |> take(3)
+/// |> to_list
+/// [0, 1, 2]
+/// ```
+///
+pub fn of_iterator(iter: Iterator(t)) -> ZList(t) {
+  let rec_fun = fn(_, t1) {
+    case iterator.step(t1) {
+      Next(e, es) -> Ok(tuple(e, es))
+      Done -> Error(Nil)
+    }
+  }
+  case iterator.step(iter) {
+    Done -> new()
+    Next(e, es) -> recurrent(e, es, rec_fun)
+  }
 }
