@@ -1,8 +1,8 @@
 import gleam_zlists/interop
-import gleam/should
+import gleeunit/should
 
 pub fn recurrent_3_test() {
-  interop.recurrent_3(1, 0, fn(a, b) { tuple(a + b, a) })
+  interop.recurrent_3(1, 0, fn(a, b) { #(a + b, a) })
   |> interop.take(10, _)
   |> interop.expand
   |> should.equal([1, 1, 2, 3, 5, 8, 13, 21, 34, 55])

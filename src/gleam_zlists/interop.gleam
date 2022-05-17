@@ -12,7 +12,7 @@ pub external fn generate(ZList(t), fn(t) -> ZList(t1)) -> ZList(t1) =
 pub external fn recurrent_2(t, fn(t) -> t) -> ZList(t) =
   "zlists" "recurrent"
 
-pub external fn recurrent_3(t, t1, fn(t, t1) -> tuple(t, t1)) -> ZList(t) =
+pub external fn recurrent_3(t, t1, fn(t, t1) -> #(t, t1)) -> ZList(t) =
   "zlists" "recurrent"
 
 pub external fn foreach(fn(t) -> any, ZList(t)) -> Nil =
@@ -48,22 +48,22 @@ pub external fn expand(ZList(t)) -> List(t) =
 pub external fn append(ZList(ZList(t))) -> ZList(t) =
   "zlists" "append"
 
-pub external fn scroll(Int, ZList(t)) -> tuple(List(t), ZList(t)) =
+pub external fn scroll(Int, ZList(t)) -> #(List(t), ZList(t)) =
   "zlists" "scroll"
 
 pub external fn merge(ZList(t), ZList(t)) -> ZList(t) =
   "zlists" "merge"
 
-pub external fn splitwith(fn(t) -> Bool, ZList(t)) -> tuple(List(t), ZList(t)) =
+pub external fn splitwith(fn(t) -> Bool, ZList(t)) -> #(List(t), ZList(t)) =
   "zlists" "splitwith"
 
 pub external fn cartesian(ZList(t), ZList(t)) -> ZList(t) =
   "zlists" "cartesian"
 
-pub external fn zip(ZList(a), ZList(b)) -> ZList(tuple(a, b)) =
+pub external fn zip(ZList(a), ZList(b)) -> ZList(#(a, b)) =
   "zlists" "zip"
 
-pub external fn ziph(ZList(a), ZList(b)) -> ZList(tuple(a, b)) =
+pub external fn ziph(ZList(a), ZList(b)) -> ZList(#(a, b)) =
   "zlists" "ziph"
 
 pub external fn unique_1(ZList(t)) -> ZList(t) =

@@ -1,5 +1,7 @@
 name = "gleam_zlists"
-version = "0.0.3"
+version = "0.0.4"
+licences = ["Apache-2.0"]
+description = "A library for working with lazy lists in Gleam"
 
 [docs]
 links = [
@@ -10,3 +12,10 @@ links = [
 type = "github"
 user = "mrdimosthenis"
 repo = "gleam_zlists"
+
+[dependencies]
+gleam_stdlib = "~> 0.21"
+zlists = "~> 0.0"
+
+[dev-dependencies]
+gleeunit = "~> 0.6"

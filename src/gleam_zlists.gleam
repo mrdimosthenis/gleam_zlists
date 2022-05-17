@@ -188,7 +188,7 @@ pub fn drop_while(zlist: ZList(t), fun: fn(t) -> Bool) -> ZList(t) {
 /// ```
 ///
 pub fn drop(zlist: ZList(t), n: Int) -> ZList(t) {
-  let tuple(_, zls) = split(zlist, n)
+  let #(_, zls) = split(zlist, n)
   zls
 }
 
@@ -244,16 +244,16 @@ pub fn concat(zlists: ZList(ZList(t))) -> ZList(t) {
 ///  ## Examples
 ///
 /// ```
-/// let tuple(ls_a, zls_b) =
+/// let #(ls_a, zls_b) =
 ///   [1, 2, 3]
 ///   |> of_list
 ///   |> split(2)
 /// let ls_b = to_list(zls_b)
-/// tuple(ls_a, ls_b)
-/// tuple([1, 2], [3])
+/// #(ls_a, ls_b)
+/// #([1, 2], [3])
 /// ```
 ///
-pub fn split(zlist: ZList(t), n: Int) -> tuple(List(t), ZList(t)) {
+pub fn split(zlist: ZList(t), n: Int) -> #(List(t), ZList(t)) {
   api.scroll(n, zlist)
 }
 
@@ -262,19 +262,16 @@ pub fn split(zlist: ZList(t), n: Int) -> tuple(List(t), ZList(t)) {
 ///  ## Examples
 ///
 /// ```
-/// let tuple(ls_a, zls_b) =
+/// let #(ls_a, zls_b) =
 ///   [1, 2, 3, 4]
 ///   |> of_list
 ///   |> split_while(fn(x) { x < 3 })
 /// let ls_b = to_list(zls_b)
-/// tuple(ls_a, ls_b)
-/// tuple([1, 2], [3, 4])
+/// #(ls_a, ls_b)
+/// #([1, 2], [3, 4])
 /// ```
 ///
-pub fn split_while(
-  zlist: ZList(t),
-  fun: fn(t) -> Bool,
-) -> tuple(List(t), ZList(t)) {
+pub fn split_while(zlist: ZList(t), fun: fn(t) -> Bool) -> #(List(t), ZList(t)) {
   api.splitwith(fun, zlist)
 }
 
@@ -288,10 +285,10 @@ pub fn split_while(
 /// let right = of_list(["foo", "bar", "baz"])
 /// zip(left, right)
 /// |> to_list
-/// [tuple(1, "foo"), tuple(2, "bar"), tuple(3, "baz")]
+/// [#(1, "foo"), #(2, "bar"), #(3, "baz")]
 /// ```
 ///
-pub fn zip(left: ZList(a), right: ZList(b)) -> ZList(tuple(a, b)) {
+pub fn zip(left: ZList(a), right: ZList(b)) -> ZList(#(a, b)) {
   api.ziph(left, right)
 }
 
@@ -457,7 +454,7 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
   }
 }
 
-/// Returns the tuple of the first element and the tail of the `zlist`. If the `zlist` is empty, `Error(Nil)` is returned.
+/// Returns the # of the first element and the tail of the `zlist`. If the `zlist` is empty, `Error(Nil)` is returned.
 ///
 ///  ## Examples
 ///
@@ -465,16 +462,16 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
 /// range(1, 3, 1)
 /// |> uncons
 /// |> result.map(fn(res) {
-///   let tuple(hd, tl) = res
-///   tuple(hd, to_list(tl))
+///   let #(hd, tl) = res
+///   #(hd, to_list(tl))
 /// })
-/// Ok(tuple(1, [2, 3]))
+/// Ok(#(1, [2, 3]))
 /// ```
 ///
-pub fn uncons(zlist: ZList(t)) -> Result(tuple(t, ZList(t)), Nil) {
-  case tuple(head(zlist), tail(zlist)) {
-    tuple(Ok(hd), Ok(tl)) ->
-      tuple(hd, tl)
+pub fn uncons(zlist: ZList(t)) -> Result(#(t, ZList(t)), Nil) {
+  case #(head(zlist), tail(zlist)) {
+    #(Ok(hd), Ok(tl)) ->
+      #(hd, tl)
       |> Ok
     _ -> Error(Nil)
   }
@@ -510,10 +507,9 @@ pub fn uncons(zlist: ZList(t)) -> Result(tuple(t, ZList(t)), Nil) {
 pub fn all(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
   case uncons(zlist) {
     Error(Nil) -> True
-    Ok(tuple(hd, tl)) -> {
+    Ok(#(hd, tl)) -> {
       let head_bool = fun(hd)
-      let tuple(_, diff_bool_zls) =
-        split_while(tl, fn(x) { fun(x) == head_bool })
+      let #(_, diff_bool_zls) = split_while(tl, fn(x) { fun(x) == head_bool })
       case is_empty(diff_bool_zls) {
         True -> head_bool
         False -> bool.negate(head_bool)
@@ -550,7 +546,7 @@ pub fn all(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
 /// ```
 ///
 pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
-  let tuple(_, zls_b) =
+  let #(_, zls_b) =
     split_while(
       zlist,
       fn(x) {
@@ -699,7 +695,7 @@ pub fn indices() -> ZList(Int) {
   iterate(0, fn(x) { x + 1 })
 }
 
-/// Returns the `zlist` with each element wrapped in a tuple alongside its index.
+/// Returns the `zlist` with each element wrapped in a # alongside its index.
 ///
 ///  ## Examples
 ///
@@ -708,36 +704,36 @@ pub fn indices() -> ZList(Int) {
 /// |> of_list
 /// |> with_index
 /// |> to_list
-/// [tuple("a", 0), tuple("b", 1), tuple("c", 2)]
+/// [#("a", 0), #("b", 1), #("c", 2)]
 /// ```
 ///
-pub fn with_index(zlist: ZList(t)) -> ZList(tuple(t, Int)) {
+pub fn with_index(zlist: ZList(t)) -> ZList(#(t, Int)) {
   zip(zlist, indices())
 }
 
-/// It takes a `ZList` with elements being two-element `tuple`s and returns a `tuple` with two `ZList`s.
-/// Each `ZList` is formed by the first and second element of each tuple, respectively.
+/// It takes a `ZList` with elements being two-element `#`s and returns a `#` with two `ZList`s.
+/// Each `ZList` is formed by the first and second element of each #, respectively.
 ///
 ///  ## Examples
 ///
 /// ```
-/// let tuple(xs, ys) =
-///   [tuple("a", 1), tuple("b", 2), tuple("c", 3)]
+/// let #(xs, ys) =
+///   [#("a", 1), #("b", 2), #("c", 3)]
 ///   |> of_list
 ///   |> unzip
-/// tuple(to_list(xs), to_list(ys))
-/// tuple(["a", "b", "c"], [1, 2, 3])
+/// #(to_list(xs), to_list(ys))
+/// #(["a", "b", "c"], [1, 2, 3])
 /// ```
 ///
-pub fn unzip(zlist: ZList(tuple(a, b))) -> tuple(ZList(a), ZList(b)) {
+pub fn unzip(zlist: ZList(#(a, b))) -> #(ZList(a), ZList(b)) {
   zlist
   |> reverse
   |> reduce(
-    tuple(new(), new()),
+    #(new(), new()),
     fn(it, acc) {
-      let tuple(x, y) = it
-      let tuple(acc_xs, acc_ys) = acc
-      tuple(cons(acc_xs, x), cons(acc_ys, y))
+      let #(x, y) = it
+      let #(acc_xs, acc_ys) = acc
+      #(cons(acc_xs, x), cons(acc_ys, y))
     },
   )
 }
@@ -774,7 +770,7 @@ pub fn max(zlist: ZList(Float)) -> Result(Float, Nil) {
   zlist
   |> uncons
   |> result.map(fn(x) {
-    let tuple(hd, tl) = x
+    let #(hd, tl) = x
     reduce(
       tl,
       hd,
@@ -805,7 +801,7 @@ pub fn min(zlist: ZList(Float)) -> Result(Float, Nil) {
   zlist
   |> uncons
   |> result.map(fn(x) {
-    let tuple(hd, tl) = x
+    let #(hd, tl) = x
     reduce(
       tl,
       hd,
@@ -834,7 +830,7 @@ pub fn to_iterator(zlist: ZList(t)) -> Iterator(t) {
   let yield = fn(acc) {
     case uncons(acc) {
       Error(Nil) -> Done
-      Ok(tuple(hd, tl)) -> Next(hd, tl)
+      Ok(#(hd, tl)) -> Next(hd, tl)
     }
   }
   iterator.unfold(zlist, yield)
@@ -843,13 +839,13 @@ pub fn to_iterator(zlist: ZList(t)) -> Iterator(t) {
 fn recurrent(
   x0: t,
   s0: t1,
-  rec_fun: fn(t, t1) -> Result(tuple(t, t1), Nil),
+  rec_fun: fn(t, t1) -> Result(#(t, t1), Nil),
 ) -> ZList(t) {
   api.new_2(
     singleton(x0),
     fn() {
       case rec_fun(x0, s0) {
-        Ok(tuple(x1, s1)) -> recurrent(x1, s1, rec_fun)
+        Ok(#(x1, s1)) -> recurrent(x1, s1, rec_fun)
         Error(Nil) -> new()
       }
     },
@@ -881,7 +877,7 @@ fn recurrent(
 pub fn of_iterator(iter: Iterator(t)) -> ZList(t) {
   let rec_fun = fn(_, t1) {
     case iterator.step(t1) {
-      Next(e, es) -> Ok(tuple(e, es))
+      Next(e, es) -> Ok(#(e, es))
       Done -> Error(Nil)
     }
   }

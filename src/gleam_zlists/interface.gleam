@@ -19,11 +19,7 @@ pub fn recurrent_2(elem: t, f: fn(t) -> t) -> ZList(t) {
   interop.recurrent_2(elem, f)
 }
 
-pub fn recurrent_3(
-  elem: t,
-  elem_1: t1,
-  f: fn(t, t1) -> tuple(t, t1),
-) -> ZList(t) {
+pub fn recurrent_3(elem: t, elem_1: t1, f: fn(t, t1) -> #(t, t1)) -> ZList(t) {
   interop.recurrent_3(elem, elem_1, f)
 }
 
@@ -71,7 +67,7 @@ pub fn append(zlsts: ZList(ZList(t))) -> ZList(t) {
   interop.append(zlsts)
 }
 
-pub fn scroll(n: Int, zl: ZList(t)) -> tuple(List(t), ZList(t)) {
+pub fn scroll(n: Int, zl: ZList(t)) -> #(List(t), ZList(t)) {
   interop.scroll(n, zl)
 }
 
@@ -79,7 +75,7 @@ pub fn merge(zl_1: ZList(t), zl_2: ZList(t)) -> ZList(t) {
   interop.merge(zl_1, zl_2)
 }
 
-pub fn splitwith(pred: fn(t) -> Bool, zl: ZList(t)) -> tuple(List(t), ZList(t)) {
+pub fn splitwith(pred: fn(t) -> Bool, zl: ZList(t)) -> #(List(t), ZList(t)) {
   interop.splitwith(pred, zl)
 }
 
@@ -87,11 +83,11 @@ pub fn cartesian(zl_1: ZList(t), zl_2: ZList(t)) -> ZList(t) {
   interop.cartesian(zl_1, zl_2)
 }
 
-pub fn zip(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(tuple(a, b)) {
+pub fn zip(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(#(a, b)) {
   interop.zip(zl_1, zl_2)
 }
 
-pub fn ziph(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(tuple(a, b)) {
+pub fn ziph(zl_1: ZList(a), zl_2: ZList(b)) -> ZList(#(a, b)) {
   interop.ziph(zl_1, zl_2)
 }
 

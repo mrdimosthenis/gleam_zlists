@@ -8,17 +8,15 @@ The documentation is available on [HexDocs](https://hexdocs.pm/gleam_zlists/glea
 
 ## Installation
 
-Add `gleam_zlists` to your `rebar.config` dependencies:
+Add `gleam_zlists` to your Gleam project.
 
-```erlang
-{deps, [
-    {gleam_zlists, "0.0.3"}
-]}.
+```
+gleam add gleam_zlists
 ```
 
 ## Examples
 
-```rust
+```gleam
 import gleam_zlists as zlist
 
 [2, 4, 6]
@@ -36,5 +34,5 @@ import gleam_zlists as zlist
 |> zlist.of_list
 |> zlist.with_index
 |> zlist.to_list
-// [tuple("a", 0), tuple("b", 1), tuple("c", 2)]
+// [#("a", 0), #("b", 1), #("c", 2)]
 ```
