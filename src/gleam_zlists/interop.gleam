@@ -1,79 +1,79 @@
-pub external type ZList(a)
+pub type ZList(a)
 
-pub external fn new_1(List(t), fn() -> List(t)) -> ZList(t) =
-  "zlists" "new"
+@external(erlang, "zlists", "new")
+pub fn new_1(x: List(t), y: fn() -> List(t)) -> ZList(t)
 
-pub external fn new_2(ZList(t), fn() -> ZList(t)) -> ZList(t) =
-  "zlists" "new"
+@external(erlang, "zlists", "new")
+pub fn new_2(x: ZList(t), y: fn() -> ZList(t)) -> ZList(t)
 
-pub external fn generate(ZList(t), fn(t) -> ZList(t1)) -> ZList(t1) =
-  "zlists" "generate"
+@external(erlang, "zlists", "generate")
+pub fn generate(x: ZList(t), y: fn(t) -> ZList(t1)) -> ZList(t1)
 
-pub external fn recurrent_2(t, fn(t) -> t) -> ZList(t) =
-  "zlists" "recurrent"
+@external(erlang, "zlists", "recurrent")
+pub fn recurrent_2(x: t, y: fn(t) -> t) -> ZList(t)
 
-pub external fn recurrent_3(t, t1, fn(t, t1) -> #(t, t1)) -> ZList(t) =
-  "zlists" "recurrent"
+@external(erlang, "zlists", "recurrent")
+pub fn recurrent_3(x: t, y: t1, z: fn(t, t1) -> #(t, t1)) -> ZList(t)
 
-pub external fn foreach(fn(t) -> any, ZList(t)) -> Nil =
-  "zlists" "foreach"
+@external(erlang, "zlists", "foreach")
+pub fn foreach(x: fn(t) -> any, y: ZList(t)) -> Nil
 
-pub external fn foldl(fn(t, acc) -> acc, acc, ZList(t)) -> acc =
-  "zlists" "foldl"
+@external(erlang, "zlists", "foldl")
+pub fn foldl(x: fn(t, acc) -> acc, y: acc, z: ZList(t)) -> acc
 
-pub external fn map(fn(a) -> b, ZList(a)) -> ZList(b) =
-  "zlists" "map"
+@external(erlang, "zlists", "map")
+pub fn map(x: fn(a) -> b, y: ZList(a)) -> ZList(b)
 
-pub external fn seq(Int, Int, Int) -> ZList(Int) =
-  "zlists" "seq"
+@external(erlang, "zlists", "seq")
+pub fn seq(x: Int, y: Int, z: Int) -> ZList(Int)
 
-pub external fn dropwhile(fn(t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "dropwhile"
+@external(erlang, "zlists", "dropwhile")
+pub fn dropwhile(x: fn(t) -> Bool, y: ZList(t)) -> ZList(t)
 
-pub external fn drop(Int, ZList(t)) -> ZList(t) =
-  "zlists" "drop"
+@external(erlang, "zlists", "drop")
+pub fn drop(x: Int, y: ZList(t)) -> ZList(t)
 
-pub external fn takewhile(fn(t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "takewhile"
+@external(erlang, "zlists", "takewhile")
+pub fn takewhile(x: fn(t) -> Bool, y: ZList(t)) -> ZList(t)
 
-pub external fn take(Int, ZList(t)) -> ZList(t) =
-  "zlists" "take"
+@external(erlang, "zlists", "take")
+pub fn take(x: Int, y: ZList(t)) -> ZList(t)
 
-pub external fn filter(fn(t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "filter"
+@external(erlang, "zlists", "filter")
+pub fn filter(x: fn(t) -> Bool, y: ZList(t)) -> ZList(t)
 
-pub external fn expand(ZList(t)) -> List(t) =
-  "zlists" "expand"
+@external(erlang, "zlists", "expand")
+pub fn expand(x: ZList(t)) -> List(t)
 
-pub external fn append(ZList(ZList(t))) -> ZList(t) =
-  "zlists" "append"
+@external(erlang, "zlists", "append")
+pub fn append(x: ZList(ZList(t))) -> ZList(t)
 
-pub external fn scroll(Int, ZList(t)) -> #(List(t), ZList(t)) =
-  "zlists" "scroll"
+@external(erlang, "zlists", "scroll")
+pub fn scroll(x: Int, y: ZList(t)) -> #(List(t), ZList(t))
 
-pub external fn merge(ZList(t), ZList(t)) -> ZList(t) =
-  "zlists" "merge"
+@external(erlang, "zlists", "merge")
+pub fn merge(x: ZList(t), y: ZList(t)) -> ZList(t)
 
-pub external fn splitwith(fn(t) -> Bool, ZList(t)) -> #(List(t), ZList(t)) =
-  "zlists" "splitwith"
+@external(erlang, "zlists", "splitwith")
+pub fn splitwith(x: fn(t) -> Bool, y: ZList(t)) -> #(List(t), ZList(t))
 
-pub external fn cartesian(ZList(t), ZList(t)) -> ZList(t) =
-  "zlists" "cartesian"
+@external(erlang, "zlists", "cartesian")
+pub fn cartesian(x: ZList(t), y: ZList(t)) -> ZList(t)
 
-pub external fn zip(ZList(a), ZList(b)) -> ZList(#(a, b)) =
-  "zlists" "zip"
+@external(erlang, "zlists", "zip")
+pub fn zip(x: ZList(a), y: ZList(b)) -> ZList(#(a, b))
 
-pub external fn ziph(ZList(a), ZList(b)) -> ZList(#(a, b)) =
-  "zlists" "ziph"
+@external(erlang, "zlists", "ziph")
+pub fn ziph(x: ZList(a), y: ZList(b)) -> ZList(#(a, b))
 
-pub external fn unique_1(ZList(t)) -> ZList(t) =
-  "zlists" "unique"
+@external(erlang, "zlists", "unique")
+pub fn unique_1(x: ZList(t)) -> ZList(t)
 
-pub external fn unique_2(fn(t, t) -> Bool, ZList(t)) -> ZList(t) =
-  "zlists" "unique"
+@external(erlang, "zlists", "unique")
+pub fn unique_2(x: fn(t, t) -> Bool, y: ZList(t)) -> ZList(t)
 
-pub external fn count(ZList(t)) -> Int =
-  "zlists" "count"
+@external(erlang, "zlists", "count")
+pub fn count(x: ZList(t)) -> Int
 
-pub external fn print(ZList(t)) -> Nil =
-  "zlists" "print"
+@external(erlang, "zlists", "print")
+pub fn print(x: ZList(t)) -> Nil

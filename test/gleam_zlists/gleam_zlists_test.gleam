@@ -1,9 +1,9 @@
-import gleeunit/should
 import gleam/int
-import gleam/string
-import gleam/result
 import gleam/iterator.{Done, Next}
+import gleam/result
+import gleam/string
 import gleam_zlists as zlist
+import gleeunit/should
 
 pub fn append_test() {
   zlist.append(zlist.range(1, 3, 1), zlist.range(4, 6, 1))
@@ -69,14 +69,11 @@ pub fn reduce_test() {
 
   [1, 2, 3]
   |> zlist.of_list
-  |> zlist.reduce(
-    "0",
-    fn(x, acc) {
-      x
-      |> int.to_string
-      |> string.append(acc)
-    },
-  )
+  |> zlist.reduce("0", fn(x, acc) {
+    x
+    |> int.to_string
+    |> string.append(acc)
+  })
   |> should.equal("3210")
 }
 
@@ -701,15 +698,12 @@ pub fn of_iterator_test() {
   |> zlist.to_list
   |> should.equal([1, 2, 3])
 
-  iterator.unfold(
-    100,
-    fn(n) {
-      case n {
-        0 -> Done
-        n -> Next(element: n, accumulator: n - 1)
-      }
-    },
-  )
+  iterator.unfold(100, fn(n) {
+    case n {
+      0 -> Done
+      n -> Next(element: n, accumulator: n - 1)
+    }
+  })
   |> zlist.of_iterator
   |> zlist.take(3)
   |> zlist.to_list

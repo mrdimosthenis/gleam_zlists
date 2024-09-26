@@ -3,8 +3,8 @@
 //// For more information see [this website](https://github.com/mrdimosthenis/gleam_zlists).
 
 import gleam/bool
+import gleam/iterator.{type Iterator, Done, Next}
 import gleam/result
-import gleam/iterator.{Done, Iterator, Next}
 import gleam_zlists/interface as api
 
 /// A type for representing lazy lists.
@@ -420,6 +420,7 @@ pub fn head(zlist: ZList(t)) -> Result(t, Nil) {
   case ls {
     [] -> Error(Nil)
     [v] -> Ok(v)
+    [v, _, ..] -> Ok(v)
   }
 }
 
@@ -447,7 +448,7 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
     |> to_list
   case ls {
     [] -> Error(Nil)
-    [_] ->
+    [_] | [_, _, ..] ->
       zlist
       |> drop(1)
       |> Ok
@@ -469,11 +470,11 @@ pub fn tail(zlist: ZList(t)) -> Result(ZList(t), Nil) {
 /// ```
 ///
 pub fn uncons(zlist: ZList(t)) -> Result(#(t, ZList(t)), Nil) {
-  case #(head(zlist), tail(zlist)) {
-    #(Ok(hd), Ok(tl)) ->
+  case head(zlist), tail(zlist) {
+    Ok(hd), Ok(tl) ->
       #(hd, tl)
       |> Ok
-    _ -> Error(Nil)
+    _, _ -> Error(Nil)
   }
 }
 
@@ -547,14 +548,11 @@ pub fn all(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
 ///
 pub fn any(zlist: ZList(t), fun: fn(t) -> Bool) -> Bool {
   let #(_, zls_b) =
-    split_while(
-      zlist,
-      fn(x) {
-        x
-        |> fun
-        |> bool.negate
-      },
-    )
+    split_while(zlist, fn(x) {
+      x
+      |> fun
+      |> bool.negate
+    })
   zls_b
   |> is_empty
   |> bool.negate
@@ -728,14 +726,11 @@ pub fn with_index(zlist: ZList(t)) -> ZList(#(t, Int)) {
 pub fn unzip(zlist: ZList(#(a, b))) -> #(ZList(a), ZList(b)) {
   zlist
   |> reverse
-  |> reduce(
-    #(new(), new()),
-    fn(it, acc) {
-      let #(x, y) = it
-      let #(acc_xs, acc_ys) = acc
-      #(cons(acc_xs, x), cons(acc_ys, y))
-    },
-  )
+  |> reduce(#(new(), new()), fn(it, acc) {
+    let #(x, y) = it
+    let #(acc_xs, acc_ys) = acc
+    #(cons(acc_xs, x), cons(acc_ys, y))
+  })
 }
 
 /// Returns the sum of all elements. The elements should be `Float` numbers.
@@ -771,16 +766,12 @@ pub fn max(zlist: ZList(Float)) -> Result(Float, Nil) {
   |> uncons
   |> result.map(fn(x) {
     let #(hd, tl) = x
-    reduce(
-      tl,
-      hd,
-      fn(x, acc) {
-        case x >. acc {
-          True -> x
-          False -> acc
-        }
-      },
-    )
+    reduce(tl, hd, fn(x, acc) {
+      case x >. acc {
+        True -> x
+        False -> acc
+      }
+    })
   })
 }
 
@@ -802,16 +793,12 @@ pub fn min(zlist: ZList(Float)) -> Result(Float, Nil) {
   |> uncons
   |> result.map(fn(x) {
     let #(hd, tl) = x
-    reduce(
-      tl,
-      hd,
-      fn(x, acc) {
-        case x <. acc {
-          True -> x
-          False -> acc
-        }
-      },
-    )
+    reduce(tl, hd, fn(x, acc) {
+      case x <. acc {
+        True -> x
+        False -> acc
+      }
+    })
   })
 }
 
@@ -841,15 +828,12 @@ fn recurrent(
   s0: t1,
   rec_fun: fn(t, t1) -> Result(#(t, t1), Nil),
 ) -> ZList(t) {
-  api.new_2(
-    singleton(x0),
-    fn() {
-      case rec_fun(x0, s0) {
-        Ok(#(x1, s1)) -> recurrent(x1, s1, rec_fun)
-        Error(Nil) -> new()
-      }
-    },
-  )
+  api.new_2(singleton(x0), fn() {
+    case rec_fun(x0, s0) {
+      Ok(#(x1, s1)) -> recurrent(x1, s1, rec_fun)
+      Error(Nil) -> new()
+    }
+  })
 }
 
 /// Converts the `iter` into a `ZList`.
